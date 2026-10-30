@@ -1,0 +1,269 @@
+/* ==========================================================================
+   HNW Retirement & Trust Optimization Web Application — Custom Styles
+   Emerald / Slate Institutional Wealth Management Theme
+   ========================================================================== */
+
+:root {
+  --emerald-primary: #10b981;
+  --emerald-dark: #047857;
+  --emerald-glow: rgba(16, 185, 129, 0.15);
+  --slate-bg: #0f172a;
+  --slate-panel: #1e293b;
+  --slate-border: #334155;
+}
+
+/* Tabular numbers for financial precision across all metrics, inputs, and tables */
+.tabular-nums {
+  font-variant-numeric: tabular-nums;
+}
+
+/* Custom sleek scrollbars */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+::-webkit-scrollbar-track {
+  background: #0f172a;
+}
+::-webkit-scrollbar-thumb {
+  background: #334155;
+  border-radius: 4px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #475569;
+}
+
+/* Complex layout containment (modern-web-guidance: interactions-in-complex-layouts) */
+.containment-region {
+  content-visibility: auto;
+  contain-intrinsic-size: auto 320px auto 480px;
+}
+
+@supports not (content-visibility: auto) {
+  .containment-region {
+    contain: layout style paint;
+  }
+}
+
+/* Responsive Data Table (modern-web-guidance: responsive-table) */
+.table-wrapper {
+  overflow: auto;
+  max-inline-size: 100%;
+  max-block-size: min(620px, 75vh);
+  container-type: inline-size;
+  border-radius: 0.75rem;
+  border: 1px solid #334155;
+}
+
+.table-wrapper:focus-visible {
+  outline: 2px solid #10b981;
+  outline-offset: 2px;
+}
+
+.table-wrapper table {
+  border-collapse: separate;
+  border-spacing: 0;
+  width: 100%;
+}
+
+.table-wrapper thead {
+  position: sticky;
+  inset-block-start: 0;
+  z-index: 20;
+}
+
+.table-wrapper tbody th {
+  position: sticky;
+  inset-inline-start: 0;
+  z-index: 10;
+  background-color: #0f172a;
+  border-right: 1px solid #334155;
+}
+
+.table-wrapper tbody tr:hover th {
+  background-color: #1e293b;
+}
+
+@container (width < 640px) {
+  .table-wrapper.stack-on-mobile table,
+  .table-wrapper.stack-on-mobile thead,
+  .table-wrapper.stack-on-mobile tbody,
+  .table-wrapper.stack-on-mobile tr,
+  .table-wrapper.stack-on-mobile th,
+  .table-wrapper.stack-on-mobile td {
+    display: block;
+  }
+
+  .table-wrapper.stack-on-mobile thead {
+    display: none;
+  }
+
+  .table-wrapper.stack-on-mobile tr {
+    margin-block-end: 1rem;
+    border: 1px solid #334155;
+    border-radius: 0.5rem;
+    overflow: hidden;
+  }
+
+  .table-wrapper.stack-on-mobile tbody th {
+    position: sticky;
+    inset-block-start: 0;
+    z-index: 2;
+    background: #1e293b;
+    width: 100%;
+  }
+
+  .table-wrapper.stack-on-mobile td[data-label]::before {
+    content: attr(data-label) ": ";
+    font-weight: 600;
+    color: #94a3b8;
+    margin-right: 0.5rem;
+  }
+}
+
+/* Deferred Validation Styling (modern-web-guidance: validate-input-after-interaction) */
+input:user-invalid,
+input.user-invalid-fallback {
+  border-color: #ef4444 !important;
+  background-color: rgba(239, 68, 68, 0.1) !important;
+}
+
+input:user-valid {
+  border-color: rgba(16, 185, 129, 0.45);
+}
+
+.field-error-msg {
+  display: none;
+  color: #f87171;
+  font-size: 0.75rem;
+  margin-top: 0.25rem;
+}
+
+input:user-invalid + .field-error-msg,
+input.user-invalid-fallback + .field-error-msg {
+  display: block;
+}
+
+/* Custom Range Input Styling */
+input[type="range"] {
+  -webkit-appearance: none;
+  appearance: none;
+  background: transparent;
+  cursor: pointer;
+}
+
+input[type="range"]::-webkit-slider-runnable-track {
+  background: #334155;
+  height: 0.4rem;
+  border-radius: 9999px;
+}
+
+input[type="range"]::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  margin-top: -5px;
+  background-color: #10b981;
+  height: 1.05rem;
+  width: 1.05rem;
+  border-radius: 9999px;
+  border: 2px solid #0f172a;
+  box-shadow: 0 0 0 2px rgba(16, 185, 129, 0.35);
+  transition: transform 0.15s ease, background-color 0.15s ease;
+}
+
+input[type="range"]::-webkit-slider-thumb:hover {
+  transform: scale(1.12);
+  background-color: #34d399;
+}
+
+/* Dropzone active states */
+.dropzone-active {
+  border-color: #10b981 !important;
+  background-color: rgba(16, 185, 129, 0.08) !important;
+  box-shadow: 0 0 0 4px rgba(16, 185, 129, 0.12);
+}
+
+/* Subtle glass card accent */
+.glass-panel {
+  background: linear-gradient(145deg, rgba(30, 41, 59, 0.92), rgba(15, 23, 42, 0.95));
+  backdrop-filter: blur(10px);
+}
+
+/* Tab transition */
+.tab-panel {
+  animation: fadeInTab 0.18s ease-out;
+}
+
+@keyframes fadeInTab {
+  from {
+    opacity: 0;
+    transform: translateY(4px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Field Help Tooltips */
+.field-tooltip {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 15px;
+  height: 15px;
+  margin-left: 4px;
+  border-radius: 9999px;
+  background-color: rgba(51, 65, 85, 0.85);
+  border: 1px solid rgba(148, 163, 184, 0.4);
+  color: #cbd5e1;
+  font-size: 10px;
+  font-weight: 700;
+  line-height: 1;
+  cursor: help;
+  vertical-align: middle;
+  transition: background-color 0.15s ease, color 0.15s ease, border-color 0.15s ease;
+}
+
+.field-tooltip:hover,
+.field-tooltip:focus-visible {
+  background-color: rgba(16, 185, 129, 0.25);
+  border-color: #10b981;
+  color: #6ee7b7;
+  outline: none;
+}
+
+.field-tooltip::after {
+  content: attr(data-tooltip);
+  position: absolute;
+  bottom: calc(100% + 8px);
+  left: 50%;
+  transform: translateX(-50%) translateY(4px);
+  width: max-content;
+  max-width: 260px;
+  padding: 8px 10px;
+  border-radius: 8px;
+  background-color: #0f172a;
+  border: 1px solid #334155;
+  box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.75);
+  color: #f1f5f9;
+  font-size: 11px;
+  font-weight: 400;
+  line-height: 1.4;
+  text-align: left;
+  white-space: normal;
+  text-transform: none;
+  pointer-events: none;
+  opacity: 0;
+  visibility: hidden;
+  z-index: 100;
+  transition: opacity 0.15s ease, transform 0.15s ease, visibility 0.15s ease;
+}
+
+.field-tooltip:hover::after,
+.field-tooltip:focus-visible::after {
+  opacity: 1;
+  visibility: visible;
+  transform: translateX(-50%) translateY(0);
+}

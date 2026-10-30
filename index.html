@@ -1,0 +1,1638 @@
+<!DOCTYPE html>
+<html lang="en" class="dark">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>EmeraldWealth HNW | Retirement, CRUT/CRAT &amp; Tax Meltdown Suite</title>
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['Inter', 'system-ui', '-apple-system', 'BlinkMacSystemFont', 'Segoe UI', 'Roboto', 'sans-serif']
+          }
+        }
+      }
+    };
+  </script>
+  <!-- Chart.js CDN -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.4/dist/chart.umd.min.js"></script>
+  <!-- Mozilla PDF.js CDN for Client-Side Fidelity & Vanguard PDF Statement Parsing -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
+  <!-- Custom Styles -->
+  <link rel="stylesheet" href="css/styles.css" />
+</head>
+<body class="bg-slate-950 text-slate-100 min-h-screen antialiased selection:bg-emerald-500 selection:text-slate-950">
+
+  <!-- Top Navigation & Institutional Header -->
+  <header class="border-b border-slate-800/90 bg-slate-900/90 backdrop-blur-md sticky top-0 z-40">
+    <div class="max-w-[1440px] mx-auto px-4 sm:px-6 lg:px-8 py-3.5 flex flex-wrap items-center justify-between gap-4">
+      <div class="flex items-center gap-3">
+        <div class="w-10 h-10 rounded-xl bg-gradient-to-br from-emerald-500 to-teal-700 flex items-center justify-center shadow-lg shadow-emerald-950/60 border border-emerald-400/30">
+          <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" aria-hidden="true">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M3 17l6-6 4 4 8-8M14 7h7v7" />
+          </svg>
+        </div>
+        <div>
+          <div class="flex items-center gap-2.5">
+            <h1 class="text-lg sm:text-xl font-bold tracking-tight text-white">EmeraldWealth <span class="text-emerald-400">HNW</span></h1>
+            <span class="hidden sm:inline-flex items-center px-2 py-0.5 rounded-md text-[11px] font-semibold bg-emerald-500/15 text-emerald-300 border border-emerald-500/30">
+              IRC § 664(b) &amp; § 7520 Engine
+            </span>
+          </div>
+          <p class="text-xs text-slate-400">High-Net-Worth Retirement, Charitable Trust (CRUT/CRAT/ILIT), WA 7% Cap Gains &amp; NIIT Wealth Architect</p>
+        </div>
+      </div>
+
+      <div class="flex items-center gap-2.5">
+        <button id="btnExportScenarioJson" type="button" class="px-3 py-1.5 text-xs font-medium rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-200 border border-slate-700 transition flex items-center gap-1.5">
+          <svg class="w-3.5 h-3.5 text-emerald-400" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" aria-hidden="true">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M4 16v2a2 2 0 002 2h12a2 2 0 002-2v-2M7 10l5 5m0 0l5-5m-5 5V4" />
+          </svg>
+          Export Scenario
+        </button>
+        <button id="btnResetDefaults" type="button" class="px-3 py-1.5 text-xs font-medium rounded-lg bg-slate-800/70 hover:bg-rose-950/60 hover:text-rose-200 hover:border-rose-700/50 text-slate-300 border border-slate-700/80 transition">
+          Reset Defaults
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <main class="max-w-[1440px] mx-auto px-4 sm:px-6 lg:px-8 py-6 space-y-6">
+
+    <!-- Immediate Top Summary Cards (5 Core Metrics Required by Prompt) -->
+    <section aria-label="Executive Summary Metrics" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-4">
+      <!-- Card 1: Probability of Success -->
+      <div class="glass-panel rounded-xl p-4 border border-slate-800 shadow-lg relative overflow-hidden">
+        <div class="flex items-center justify-between mb-1.5">
+          <span class="text-xs font-semibold uppercase tracking-wider text-slate-400">Probability of Success</span>
+          <span class="w-2 h-2 rounded-full bg-emerald-400"></span>
+        </div>
+        <div id="summaryProbSuccess" class="text-2xl lg:text-3xl font-bold text-emerald-400 tabular-nums tracking-tight">--%</div>
+        <p id="summaryProbSuccessSub" class="text-[11px] text-slate-400 mt-1.5 truncate">Monte Carlo survival through life expectancy</p>
+      </div>
+
+      <!-- Card 2: Tax Savings from Trusts -->
+      <div class="glass-panel rounded-xl p-4 border border-emerald-900/50 shadow-lg relative overflow-hidden">
+        <div class="flex items-center justify-between mb-1.5">
+          <span class="text-xs font-semibold uppercase tracking-wider text-emerald-300/90">Tax Savings from Trusts</span>
+          <span class="px-1.5 py-0.5 text-[10px] font-semibold rounded bg-emerald-500/20 text-emerald-300">CRUT/CRAT</span>
+        </div>
+        <div id="summaryTrustTaxSavings" class="text-2xl lg:text-3xl font-bold text-white tabular-nums tracking-tight">$0</div>
+        <p id="summaryTrustTaxSavingsSub" class="text-[11px] text-slate-400 mt-1.5 truncate">Avoided Yr-1 sale tax + 6-yr carryforward</p>
+      </div>
+
+      <!-- Card 3: Peak Net Worth -->
+      <div class="glass-panel rounded-xl p-4 border border-slate-800 shadow-lg relative overflow-hidden">
+        <div class="flex items-center justify-between mb-1.5">
+          <span class="text-xs font-semibold uppercase tracking-wider text-slate-400">Peak Net Worth</span>
+          <span class="px-1.5 py-0.5 text-[10px] font-semibold rounded bg-blue-500/20 text-blue-300">Horizon</span>
+        </div>
+        <div id="summaryPeakNetWorth" class="text-2xl lg:text-3xl font-bold text-white tabular-nums tracking-tight">$0</div>
+        <p id="summaryPeakNetWorthSub" class="text-[11px] text-slate-400 mt-1.5 truncate">Includes liquid, trust &amp; ILIT pools</p>
+      </div>
+
+      <!-- Card 4: Total WA State Capital Gains Tax Paid -->
+      <div class="glass-panel rounded-xl p-4 border border-slate-800 shadow-lg relative overflow-hidden">
+        <div class="flex items-center justify-between mb-1.5">
+          <span class="text-xs font-semibold uppercase tracking-wider text-rose-300/90">Total WA Cap Gains Tax</span>
+          <span class="px-1.5 py-0.5 text-[10px] font-semibold rounded bg-rose-500/20 text-rose-300">7.0% Excise</span>
+        </div>
+        <div id="summaryTotalWaTax" class="text-2xl lg:text-3xl font-bold text-rose-400 tabular-nums tracking-tight">$0</div>
+        <p id="summaryTotalWaTaxSub" class="text-[11px] text-slate-400 mt-1.5 truncate">Indexed from $278k (2025) / 2026 CPI</p>
+      </div>
+
+      <!-- Card 5: Total NIIT Paid -->
+      <div class="glass-panel rounded-xl p-4 border border-slate-800 shadow-lg relative overflow-hidden">
+        <div class="flex items-center justify-between mb-1.5">
+          <span class="text-xs font-semibold uppercase tracking-wider text-amber-300/90">Total Federal NIIT Paid</span>
+          <span class="px-1.5 py-0.5 text-[10px] font-semibold rounded bg-amber-500/20 text-amber-300">3.8% Surtax</span>
+        </div>
+        <div id="summaryTotalNiitPaid" class="text-2xl lg:text-3xl font-bold text-amber-400 tabular-nums tracking-tight">$0</div>
+        <p id="summaryTotalNiitPaidSub" class="text-[11px] text-slate-400 mt-1.5 truncate">IRC § 1411 Net Investment Income Tax</p>
+      </div>
+    </section>
+
+    <!-- Tab Navigation Bar (7 Required Views) -->
+    <nav aria-label="Planning Modules" role="tablist" class="bg-slate-900/90 p-1.5 rounded-xl border border-slate-800 flex items-center gap-1.5 overflow-x-auto">
+      <button type="button" role="tab" aria-selected="true" data-tab-target="dashboard" class="px-4 py-2.5 text-sm font-semibold rounded-lg transition-all bg-emerald-600 text-white shadow-md shadow-emerald-900/40 flex items-center gap-2 whitespace-nowrap">
+        <span>1. Dashboard</span>
+      </button>
+      <button type="button" role="tab" aria-selected="false" data-tab-target="import" class="px-4 py-2.5 text-sm font-medium rounded-lg transition-all text-slate-300 hover:text-white hover:bg-slate-800/80 flex items-center gap-2 whitespace-nowrap">
+        <span>2. Statement Import</span>
+      </button>
+      <button type="button" role="tab" aria-selected="false" data-tab-target="core" class="px-4 py-2.5 text-sm font-medium rounded-lg transition-all text-slate-300 hover:text-white hover:bg-slate-800/80 flex items-center gap-2 whitespace-nowrap">
+        <span>3. Core Assumptions</span>
+      </button>
+      <button type="button" role="tab" aria-selected="false" data-tab-target="trust" class="px-4 py-2.5 text-sm font-medium rounded-lg transition-all text-slate-300 hover:text-white hover:bg-slate-800/80 flex items-center gap-2 whitespace-nowrap">
+        <span>4. Trust Optimization (CRUT/CRAT/ILIT)</span>
+      </button>
+      <button type="button" role="tab" aria-selected="false" data-tab-target="tax" class="px-4 py-2.5 text-sm font-medium rounded-lg transition-all text-slate-300 hover:text-white hover:bg-slate-800/80 flex items-center gap-2 whitespace-nowrap">
+        <span>5. Tax &amp; Meltdown Planning</span>
+      </button>
+      <button type="button" role="tab" aria-selected="false" data-tab-target="liabilities" class="px-4 py-2.5 text-sm font-medium rounded-lg transition-all text-slate-300 hover:text-white hover:bg-slate-800/80 flex items-center gap-2 whitespace-nowrap">
+        <span>6. Liabilities</span>
+      </button>
+      <button type="button" role="tab" aria-selected="false" data-tab-target="analytics" class="px-4 py-2.5 text-sm font-medium rounded-lg transition-all text-slate-300 hover:text-white hover:bg-slate-800/80 flex items-center gap-2 whitespace-nowrap">
+        <span>7. Analytics &amp; Ledger</span>
+      </button>
+      <button type="button" role="tab" aria-selected="false" data-tab-target="gottlieb" class="px-4 py-2.5 text-sm font-medium rounded-lg transition-all text-slate-300 hover:text-white hover:bg-slate-800/80 flex items-center gap-2 whitespace-nowrap">
+        <span>8. Gottlieb CRUT Analyzer</span>
+      </button>
+    </nav>
+
+    <!-- ====================================================================
+         TAB 1: DASHBOARD (Executive Visualizations)
+         ==================================================================== -->
+    <section data-tab-panel="dashboard" class="tab-panel space-y-6">
+      <!-- Chart 1: Wealth Trajectory & Composition -->
+      <div class="glass-panel rounded-xl p-5 border border-slate-800 shadow-xl">
+        <div class="flex flex-wrap items-center justify-between gap-2 mb-4">
+          <div>
+            <h2 class="text-base font-bold text-white">Chart 1: Multi-Bucket Wealth Trajectory &amp; Trust/ILIT Composition</h2>
+            <p class="text-xs text-slate-400">Stacked trajectory across Taxable Brokerage, Pre-Tax IRA/401k, Tax-Free Roth, CRUT/CRAT Corpus, and Final ILIT Heir Benefit</p>
+          </div>
+          <span class="px-2.5 py-1 text-xs font-medium rounded-md bg-emerald-500/10 text-emerald-300 border border-emerald-500/20">
+            Hover for Annual Breakdown
+          </span>
+        </div>
+        <div class="h-[360px] w-full">
+          <canvas id="chartWealthTrajectory" aria-label="Wealth Trajectory and Composition Chart"></canvas>
+        </div>
+      </div>
+
+      <!-- Charts 2 & 3 Grid -->
+      <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+        <!-- Chart 2: RMD Mitigation Comparison -->
+        <div class="glass-panel rounded-xl p-5 border border-slate-800 shadow-xl flex flex-col justify-between">
+          <div>
+            <div class="flex flex-wrap items-center justify-between gap-2 mb-3">
+              <div>
+                <h2 class="text-base font-bold text-white">Chart 2: SECURE 2.0 Age-75 RMD Mitigation Comparison</h2>
+                <p class="text-xs text-slate-400">Projected annual RMDs <em>With</em> vs. <em>Without</em> early Pre-Tax distributions &amp; Roth conversions (Ages 59.5–74)</p>
+              </div>
+            </div>
+            <div class="grid grid-cols-3 gap-2 mb-4 bg-slate-900/90 p-3 rounded-lg border border-slate-800/80">
+              <div>
+                <span class="text-[11px] text-slate-400 block">Cumulative Baseline RMDs</span>
+                <span id="metricRmdWithoutStrategy" class="text-sm font-bold text-rose-400 tabular-nums">$0</span>
+              </div>
+              <div>
+                <span class="text-[11px] text-slate-400 block">Mitigated RMDs</span>
+                <span id="metricRmdWithStrategy" class="text-sm font-bold text-emerald-400 tabular-nums">$0</span>
+              </div>
+              <div>
+                <span class="text-[11px] text-slate-400 block">Total RMD Shock Reduced</span>
+                <span id="metricRmdSavedDollar" class="text-sm font-bold text-white tabular-nums">$0</span>
+              </div>
+            </div>
+          </div>
+          <div class="h-[310px] w-full">
+            <canvas id="chartRmdComparison" aria-label="RMD Mitigation Comparison Chart"></canvas>
+          </div>
+        </div>
+
+        <!-- Chart 3: Annual Cash Flow & Debt Drag -->
+        <div class="glass-panel rounded-xl p-5 border border-slate-800 shadow-xl flex flex-col justify-between">
+          <div>
+            <div class="flex flex-wrap items-center justify-between gap-2 mb-3">
+              <div>
+                <h2 class="text-base font-bold text-white">Chart 3: Annual Cash Flow, Tax Layers &amp; Accelerated Debt Drag</h2>
+                <p class="text-xs text-slate-400">Gross inflows vs. outflows including CPI-indexed 7% WA Cap Gains Tax, 3.8% NIIT surtax, ILIT premiums, and accelerated mortgage payoff</p>
+              </div>
+            </div>
+          </div>
+          <div class="h-[370px] w-full">
+            <canvas id="chartCashFlow" aria-label="Annual Cash Flow and Debt Drag Chart"></canvas>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ====================================================================
+         TAB 2: STATEMENT IMPORT (Fidelity / Vanguard PDF, CSV & JSON Engine)
+         ==================================================================== -->
+    <section data-tab-panel="import" class="tab-panel hidden space-y-6">
+      <div class="glass-panel rounded-xl p-6 border border-slate-800 shadow-xl">
+        <div class="max-w-3xl">
+          <div class="flex flex-wrap items-center gap-2">
+            <h2 class="text-lg font-bold text-white">Brokerage Statement Parsing Engine (Fidelity &amp; Vanguard PDF / CSV / JSON)</h2>
+            <span class="px-2 py-0.5 text-[11px] font-semibold rounded-full bg-emerald-500/20 text-emerald-300 border border-emerald-500/30">
+              PDF.js + FileReader Active
+            </span>
+          </div>
+          <p class="text-xs text-slate-400 mt-1">
+            100% client-side <code class="text-emerald-300">PDF.js</code> coordinate extractor and <code class="text-emerald-300">FileReader</code> engine automatically detects <strong>Fidelity Investment Reports (PDF/CSV)</strong> and <strong>Vanguard Consolidated Statements (PDF/CSV)</strong>, categorizes holdings into <strong>Taxable</strong>, <strong>Pre-Tax (IRA/401k)</strong>, and <strong>Roth</strong> buckets, and populates your Core Assumptions.
+          </p>
+        </div>
+
+        <!-- Drag & Drop Zone (Supports Multi-File Upload & Cumulative Aggregation) -->
+        <div
+          id="statementDropzone"
+          tabindex="0"
+          role="button"
+          aria-label="Upload one or more Fidelity or Vanguard PDF, CSV, or JSON brokerage statements"
+          class="mt-5 border-2 border-dashed border-slate-700 hover:border-emerald-500/70 rounded-xl p-8 text-center cursor-pointer transition-all bg-slate-900/50 hover:bg-slate-900/90"
+        >
+          <input id="statementFileInput" type="file" multiple accept=".pdf,.csv,.json,application/pdf,text/csv,application/json" class="hidden" />
+          <div class="w-12 h-12 rounded-full bg-emerald-500/15 border border-emerald-500/30 text-emerald-400 mx-auto flex items-center justify-center mb-3">
+            <svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" aria-hidden="true">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12" />
+            </svg>
+          </div>
+          <p class="text-sm font-semibold text-white">Drag &amp; drop Fidelity, Vanguard, or Social Security <span class="text-emerald-400">PDF</span>, <span class="text-emerald-400">CSV</span>, or <span class="text-emerald-400">JSON</span> statements here, or <span class="text-emerald-400 underline">browse files</span></p>
+          <p class="text-xs text-slate-400 mt-1.5">
+            Multiple statements are automatically summed together and synced into your plan's Core Assumptions.<br />
+            <strong>PDF Support:</strong> Digital Fidelity Investment Reports, Vanguard Consolidated Statements &amp; <strong>Social Security Statements (Form SSA-7005)</strong> | <strong>CSV Support:</strong> Fidelity &amp; Vanguard exports
+          </p>
+        </div>
+
+        <div id="importStatusMessage" class="hidden"></div>
+
+        <!-- Cumulative Multi-Statement Preview Container -->
+        <div id="importPreviewContainer" class="hidden mt-6 space-y-5">
+          <div class="grid grid-cols-1 sm:grid-cols-5 gap-4 items-center bg-slate-900/90 p-4 rounded-xl border border-slate-800">
+            <div>
+              <span class="text-xs text-slate-400 block">Combined Taxable Brokerage</span>
+              <span id="importSumTaxable" class="text-lg font-bold text-emerald-400 tabular-nums">$0</span>
+            </div>
+            <div>
+              <span class="text-xs text-slate-400 block">Combined Pre-Tax (IRA / 401k)</span>
+              <span id="importSumPreTax" class="text-lg font-bold text-blue-400 tabular-nums">$0</span>
+            </div>
+            <div>
+              <span class="text-xs text-slate-400 block">Combined Roth IRA</span>
+              <span id="importSumRoth" class="text-lg font-bold text-purple-400 tabular-nums">$0</span>
+            </div>
+            <div>
+              <span class="text-xs text-slate-400 block">Combined Deferred Comp</span>
+              <span id="importSumDeferredComp" class="text-lg font-bold text-amber-400 tabular-nums">$0</span>
+            </div>
+            <div class="flex items-center justify-end gap-2">
+              <span id="importStatementCountBadge" class="px-2.5 py-1.5 text-xs font-semibold rounded-lg bg-emerald-500/15 text-emerald-300 border border-emerald-500/30">
+                0 Statements Active
+              </span>
+              <button id="btnClearAllStatements" type="button" class="px-3 py-1.5 text-xs font-semibold rounded-lg bg-rose-950/60 hover:bg-rose-900/80 text-rose-200 border border-rose-700/50 transition">
+                Clear All
+              </button>
+            </div>
+          </div>
+
+          <!-- Imported Statements Summary List -->
+          <div class="space-y-2">
+            <h3 class="text-xs font-semibold uppercase tracking-wider text-slate-400">Imported Statements Included in Plan</h3>
+            <div tabindex="0" role="region" aria-label="Imported Statements List" class="table-wrapper">
+              <table class="text-left border-collapse">
+                <thead class="bg-slate-900 text-slate-300 text-xs uppercase">
+                  <tr>
+                    <th class="py-2 px-3">Statement File</th>
+                    <th class="py-2 px-3">Detected Format</th>
+                    <th class="py-2 px-3 text-right">Positions</th>
+                    <th class="py-2 px-3 text-right">Taxable Subtotal</th>
+                    <th class="py-2 px-3 text-right">Pre-Tax Subtotal</th>
+                    <th class="py-2 px-3 text-right">Roth Subtotal</th>
+                    <th class="py-2 px-3 text-right">Deferred Comp</th>
+                    <th class="py-2 px-3 text-center">Action</th>
+                  </tr>
+                </thead>
+                <tbody id="importedStatementsListBody" class="divide-y divide-slate-800/60"></tbody>
+              </table>
+            </div>
+          </div>
+
+          <!-- Combined Positions Breakdown (Grouped by Account with Detailed Holdings Underneath) -->
+          <div class="space-y-2">
+            <div class="flex items-center justify-between">
+              <h3 class="text-xs font-semibold uppercase tracking-wider text-slate-400">Accounts &amp; Detailed Holdings Breakdown</h3>
+              <span class="text-[11px] text-slate-400">Click any account header row to expand or collapse its holdings</span>
+            </div>
+            <div tabindex="0" role="region" aria-label="Parsed Statement Positions" class="table-wrapper">
+              <table class="text-left border-collapse">
+                <thead class="bg-slate-900 text-slate-300 text-xs uppercase">
+                  <tr>
+                    <th class="py-2.5 px-3">Account / Holding</th>
+                    <th class="py-2.5 px-3">Account #</th>
+                    <th class="py-2.5 px-3">Symbol</th>
+                    <th class="py-2.5 px-3">Description</th>
+                    <th class="py-2.5 px-3 text-right">% of Account</th>
+                    <th class="py-2.5 px-3 text-right">Ending Balance</th>
+                    <th class="py-2.5 px-3 text-center">Mapped Bucket</th>
+                  </tr>
+                </thead>
+                <tbody id="importPreviewTableBody" class="divide-y divide-slate-800/60"></tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ====================================================================
+         TAB 3: CORE ASSUMPTIONS
+         ==================================================================== -->
+    <section data-tab-panel="core" class="tab-panel hidden space-y-6">
+      <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+
+        <!-- Column 1: Horizon & Demographics -->
+        <div class="glass-panel rounded-xl p-5 border border-slate-800 space-y-4 containment-region">
+          <h2 class="text-base font-bold text-white border-b border-slate-800 pb-2.5">1. Timeline &amp; Horizon</h2>
+
+          <div>
+            <label for="inputCurrentAge" class="block text-xs font-medium text-slate-300 mb-1">Current Age</label>
+            <input id="inputCurrentAge" type="number" min="25" max="90" step="1" data-state-key="currentAge" class="w-full rounded-lg bg-slate-900 border border-slate-700 px-3 py-2 text-sm text-white tabular-nums focus:outline-none focus:border-emerald-500" />
+            <span class="field-error-msg">Enter an age between 25 and 90.</span>
+          </div>
+
+          <div>
+            <label for="inputRetirementAge" class="block text-xs font-medium text-slate-300 mb-1">Target Retirement Age</label>
+            <input id="inputRetirementAge" type="number" min="30" max="95" step="1" data-state-key="retirementAge" class="w-full rounded-lg bg-slate-900 border border-slate-700 px-3 py-2 text-sm text-white tabular-nums focus:outline-none focus:border-emerald-500" />
+          </div>
+
+          <div>
+            <label for="inputLifeExpectancy" class="block text-xs font-medium text-slate-300 mb-1">Planning Life Expectancy (Age)</label>
+            <input id="inputLifeExpectancy" type="number" min="65" max="110" step="1" data-state-key="lifeExpectancy" class="w-full rounded-lg bg-slate-900 border border-slate-700 px-3 py-2 text-sm text-white tabular-nums focus:outline-none focus:border-emerald-500" />
+          </div>
+
+          <div class="pt-2 border-t border-slate-800/80 space-y-3">
+            <h3 class="text-xs font-semibold uppercase tracking-wider text-emerald-400">Baseline Cash Flows (Today's $)</h3>
+            <div>
+              <label for="inputPreRetIncome" class="block text-xs font-medium text-slate-300 mb-1">Pre-Retirement Annual Earned Income ($)</label>
+              <input id="inputPreRetIncome" type="text" inputmode="decimal" data-currency-input="true" data-state-key="preRetirementIncome" class="w-full rounded-lg bg-slate-900 border border-slate-700 px-3 py-2 text-sm text-white tabular-nums focus:outline-none focus:border-emerald-500" />
+            </div>
+            <div>
+              <label for="inputLivingExpenses" class="block text-xs font-medium text-slate-300 mb-1">Annual Living Expenses ($, Inflation-Indexed)</label>
+              <input id="inputLivingExpenses" type="text" inputmode="decimal" data-currency-input="true" data-state-key="annualLivingExpenses" class="w-full rounded-lg bg-slate-900 border border-slate-700 px-3 py-2 text-sm text-white tabular-nums focus:outline-none focus:border-emerald-500" />
+            </div>
+            <!-- Social Security Module (SSA-7005 Statement & Claiming Optimizer) -->
+            <div class="p-3.5 rounded-xl bg-slate-900/90 border border-slate-800 space-y-3">
+              <div class="flex items-center justify-between">
+                <div class="flex items-center gap-2">
+                  <span class="text-xs font-semibold text-emerald-300">Social Security Benefits</span>
+                  <span id="ssStatusBadge" class="px-2 py-0.5 text-[10px] font-semibold rounded-full bg-slate-800 text-slate-400 border border-slate-700">
+                    Manual Mode
+                  </span>
+                </div>
+                <label for="ssStatementFileInput" class="inline-flex items-center gap-1.5 px-2.5 py-1 text-[11px] font-medium text-emerald-300 bg-emerald-950/60 hover:bg-emerald-900/80 border border-emerald-500/40 rounded-lg cursor-pointer transition">
+                  <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-8l-4-4m0 0L8 8m4-4v12" /></svg>
+                  <span>Upload SSA-7005 PDF</span>
+                  <input id="ssStatementFileInput" type="file" accept=".pdf,application/pdf" class="hidden" />
+                </label>
+              </div>
+
+              <!-- SSA Primary Beneficiary Profile Card (Visible when ssPrimaryEnabled) -->
+              <div id="ssPrimaryCard" class="hidden p-3 rounded-lg bg-slate-950 border border-emerald-500/30 space-y-2.5">
+                <div class="flex items-center justify-between border-b border-slate-800/80 pb-2">
+                  <div>
+                    <span id="ssPrimaryNameBadge" class="text-xs font-bold text-white block">David G. Hale</span>
+                    <span id="ssPrimaryMetaBadge" class="text-[10px] text-slate-400 block">DOB: Aug 7, 1970 | FRA: Age 67</span>
+                  </div>
+                  <div class="text-right">
+                    <span id="ssPrimaryMonthlyDisplay" class="text-sm font-bold text-emerald-400 tabular-nums block">$3,748 / mo</span>
+                    <span id="ssPrimaryAnnualDisplay" class="text-[10px] text-slate-400 tabular-nums block">$44,976 / yr</span>
+                  </div>
+                </div>
+
+                <!-- Interactive Claiming Age Button Ladder (62 to 70) -->
+                <div>
+                  <div class="flex items-center justify-between mb-1.5">
+                    <span class="text-[11px] font-medium text-slate-300">Primary Claiming Age:</span>
+                    <span id="ssPrimaryPctFraBadge" class="text-[10px] font-semibold text-emerald-300">100% of FRA</span>
+                  </div>
+                  <div id="ssPrimaryAgeButtons" class="grid grid-cols-9 gap-1 text-center">
+                    <!-- Buttons 62..70 -->
+                  </div>
+                </div>
+
+                <!-- Auxiliary Details & Action Buttons -->
+                <div class="flex flex-wrap items-center justify-between gap-2 pt-1 text-[11px] text-slate-400 border-t border-slate-800/60">
+                  <div class="flex items-center gap-2">
+                    <span id="ssPrimaryDisabilityBadge" class="text-slate-400">Disability: $4,083/mo</span>
+                    <span>•</span>
+                    <span id="ssPrimarySurvivorBadge" class="text-slate-400">Survivor FRA: $4,083/mo</span>
+                  </div>
+                  <button id="btnToggleEarningsRecord" type="button" class="text-[10px] text-emerald-400 hover:text-emerald-300 underline font-medium">
+                    View 35-Yr Earnings &amp; Taxes
+                  </button>
+                </div>
+              </div>
+
+              <!-- SSA Spouse Beneficiary Profile Card (Visible when ssSpouseEnabled) -->
+              <div id="ssSpouseCard" class="hidden p-3 rounded-lg bg-slate-950 border border-sky-500/30 space-y-2.5">
+                <div class="flex items-center justify-between border-b border-slate-800/80 pb-2">
+                  <div>
+                    <span id="ssSpouseNameBadge" class="text-xs font-bold text-white block">Spouse</span>
+                    <span id="ssSpouseMetaBadge" class="text-[10px] text-slate-400 block">DOB: 1970 | FRA: Age 67</span>
+                  </div>
+                  <div class="text-right">
+                    <span id="ssSpouseMonthlyDisplay" class="text-sm font-bold text-sky-400 tabular-nums block">$0 / mo</span>
+                    <span id="ssSpouseAnnualDisplay" class="text-[10px] text-slate-400 tabular-nums block">$0 / yr</span>
+                  </div>
+                </div>
+
+                <!-- Interactive Spouse Claiming Age Button Ladder -->
+                <div>
+                  <div class="flex items-center justify-between mb-1.5">
+                    <span class="text-[11px] font-medium text-slate-300">Spouse Claiming Age:</span>
+                    <span id="ssSpousePctFraBadge" class="text-[10px] font-semibold text-sky-300">100% of FRA</span>
+                  </div>
+                  <div id="ssSpouseAgeButtons" class="grid grid-cols-9 gap-1 text-center">
+                    <!-- Buttons 62..70 -->
+                  </div>
+                </div>
+              </div>
+
+              <!-- Standard / Manual Input Fields (Always kept in sync) -->
+              <div class="grid grid-cols-2 gap-3 pt-1">
+                <div>
+                  <label for="inputSSAnnual" class="block text-[11px] font-medium text-slate-300 mb-1">Combined Social Security ($/yr)</label>
+                  <input id="inputSSAnnual" type="text" inputmode="decimal" data-currency-input="true" data-state-key="socialSecurityAnnual" class="w-full rounded-lg bg-slate-950 border border-slate-700 px-2.5 py-1.5 text-xs text-white tabular-nums focus:outline-none focus:border-emerald-500" />
+                </div>
+                <div>
+                  <label for="inputSSStartAge" class="block text-[11px] font-medium text-slate-300 mb-1">Primary Claim Age (62-70)</label>
+                  <input id="inputSSStartAge" type="number" min="62" max="70" step="1" data-state-key="socialSecurityStartAge" class="w-full rounded-lg bg-slate-950 border border-slate-700 px-2.5 py-1.5 text-xs text-white tabular-nums focus:outline-none focus:border-emerald-500" />
+                </div>
+              </div>
+
+              <!-- Claiming Strategy Optimizer & Break-Even Analysis Tile -->
+              <div id="ssOptimizerCard" class="hidden p-3 rounded-lg bg-slate-950/80 border border-slate-800 space-y-2 text-xs">
+                <div class="flex items-center justify-between">
+                  <span class="font-semibold text-emerald-300">Social Security Claiming Strategy Optimizer</span>
+                  <span class="text-[10px] text-slate-400">Longevity &amp; Survivor Hedge</span>
+                </div>
+                <div class="grid grid-cols-3 gap-2 text-center text-[11px]">
+                  <div class="p-2 rounded bg-slate-900 border border-slate-800">
+                    <span class="text-slate-400 block text-[10px]">Claim at 62 (Early)</span>
+                    <span id="ssOptVal62" class="font-bold text-white tabular-nums block mt-0.5">$2,639/mo</span>
+                    <span id="ssOptDiff62" class="text-[10px] text-rose-400 block">-29.6% vs FRA</span>
+                  </div>
+                  <div class="p-2 rounded bg-slate-900 border border-slate-800">
+                    <span class="text-slate-400 block text-[10px]">Claim at 67 (FRA)</span>
+                    <span id="ssOptVal67" class="font-bold text-white tabular-nums block mt-0.5">$3,748/mo</span>
+                    <span class="text-[10px] text-emerald-400 block">Baseline 100%</span>
+                  </div>
+                  <div class="p-2 rounded bg-slate-900 border border-emerald-500/40 bg-emerald-950/20">
+                    <span class="text-emerald-300 block text-[10px] font-semibold">Claim at 70 (Delayed)</span>
+                    <span id="ssOptVal70" class="font-bold text-emerald-300 tabular-nums block mt-0.5">$4,648/mo</span>
+                    <span id="ssOptDiff70" class="text-[10px] text-emerald-400 block">+24.0% (+76% vs 62)</span>
+                  </div>
+                </div>
+                <div class="text-[11px] text-slate-300 leading-relaxed bg-slate-900/60 p-2.5 rounded border border-slate-800">
+                  <div id="ssBreakEvenText">
+                    <strong>Break-Even Horizon:</strong> Delaying from Age 62 to 70 breaks even at age <strong>80.4</strong>. Living past age 80.4 generates significant cumulative wealth gains and maximizes the surviving spouse's lifetime survivor benefit of <strong>$4,648/mo</strong> ($55,776/yr indexed to inflation).
+                  </div>
+                </div>
+              </div>
+
+              <!-- Collapsible 35-Year Earnings Record & Taxes Paid Drawer -->
+              <div id="ssEarningsRecordDrawer" class="hidden p-3 rounded-lg bg-slate-950 border border-slate-800 space-y-2">
+                <div class="flex items-center justify-between">
+                  <span class="text-xs font-semibold text-white">Earnings Record &amp; Lifetime Taxes Paid</span>
+                  <button id="btnCloseEarningsDrawer" type="button" class="text-slate-400 hover:text-white text-xs">&times; Close</button>
+                </div>
+                <div id="ssTaxesPaidSummary" class="grid grid-cols-2 gap-2 text-[11px] p-2 rounded bg-slate-900 border border-slate-800">
+                  <div>
+                    <span class="text-slate-400 block text-[10px]">Social Security Taxes</span>
+                    <span id="ssTaxesSummarySS" class="text-white font-semibold">You: $173,886 | Employer: $186,339</span>
+                  </div>
+                  <div>
+                    <span class="text-slate-400 block text-[10px]">Medicare Taxes</span>
+                    <span id="ssTaxesSummaryMed" class="text-white font-semibold">You: $74,361 | Employer: $74,361</span>
+                  </div>
+                </div>
+                <div class="max-h-48 overflow-y-auto rounded border border-slate-800">
+                  <table class="w-full text-[11px] text-left border-collapse">
+                    <thead class="bg-slate-900 text-slate-300 uppercase text-[10px] sticky top-0">
+                      <tr>
+                        <th class="py-1 px-2">Work Year</th>
+                        <th class="py-1 px-2 text-right">Taxed for Social Security</th>
+                        <th class="py-1 px-2 text-right">Taxed for Medicare</th>
+                      </tr>
+                    </thead>
+                    <tbody id="ssEarningsTableBody" class="divide-y divide-slate-800/60 font-mono text-slate-300">
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Column 2: Portfolio Bucket Balances -->
+        <div class="glass-panel rounded-xl p-5 border border-slate-800 space-y-4 containment-region">
+          <h2 class="text-base font-bold text-white border-b border-slate-800 pb-2.5">2. Account Bucket Balances</h2>
+
+          <div>
+            <label for="inputTaxableBalance" class="block text-xs font-medium text-slate-300 mb-1">Taxable Brokerage Balance ($)</label>
+            <input id="inputTaxableBalance" type="text" inputmode="decimal" data-currency-input="true" data-state-key="taxableBalance" class="w-full rounded-lg bg-slate-900 border border-slate-700 px-3 py-2 text-sm text-white tabular-nums focus:outline-none focus:border-emerald-500" />
+            <p class="text-[11px] text-slate-400 mt-1">Liquid non-qualified brokerage assets (excluding concentrated stock placed in CRUT/CRAT)</p>
+          </div>
+
+          <div>
+            <label for="inputTaxableBasisRatio" class="block text-xs font-medium text-slate-300 mb-1">Taxable Brokerage Cost Basis Ratio (%)</label>
+            <input id="inputTaxableBasisRatio" type="number" min="0" max="100" step="any" data-state-key="taxableCostBasisRatio" class="w-full rounded-lg bg-slate-900 border border-slate-700 px-3 py-2 text-sm text-white tabular-nums focus:outline-none focus:border-emerald-500" />
+            <p class="text-[11px] text-slate-400 mt-1">Tracks unrealized gain exposure for WA 7% Cap Gains &amp; Federal LTCG upon liquidation</p>
+          </div>
+
+          <div>
+            <label for="inputPreTaxBalance" class="block text-xs font-medium text-slate-300 mb-1">Pre-Tax Retirement Balance (Traditional IRA / 401k) ($)</label>
+            <input id="inputPreTaxBalance" type="text" inputmode="decimal" data-currency-input="true" data-state-key="preTaxBalance" class="w-full rounded-lg bg-slate-900 border border-slate-700 px-3 py-2 text-sm text-white tabular-nums focus:outline-none focus:border-emerald-500" />
+          </div>
+
+          <div>
+            <label for="inputRothBalance" class="block text-xs font-medium text-slate-300 mb-1">Roth Tax-Free Balance (Roth IRA / 401k) ($)</label>
+            <input id="inputRothBalance" type="text" inputmode="decimal" data-currency-input="true" data-state-key="rothBalance" class="w-full rounded-lg bg-slate-900 border border-slate-700 px-3 py-2 text-sm text-white tabular-nums focus:outline-none focus:border-emerald-500" />
+          </div>
+
+          <div>
+            <label for="inputDeferredCompBalance" class="block text-xs font-medium text-slate-300 mb-1">Nonqualified Deferred Compensation (NQDC) ($)</label>
+            <input id="inputDeferredCompBalance" type="text" inputmode="decimal" data-currency-input="true" data-state-key="deferredCompBalance" class="w-full rounded-lg bg-slate-900 border border-slate-700 px-3 py-2 text-sm text-white tabular-nums focus:outline-none focus:border-emerald-500" />
+            <p class="text-[11px] text-slate-400 mt-1">Populated from employer Deferred Comp plan statements; distributed according to elected installment tranches as ordinary income</p>
+          </div>
+        </div>
+
+        <!-- Column 3: Return, Volatility & Inflation Assumptions -->
+        <div class="glass-panel rounded-xl p-5 border border-slate-800 space-y-4 containment-region">
+          <h2 class="text-base font-bold text-white border-b border-slate-800 pb-2.5">3. Capital Market &amp; Inflation Assumptions</h2>
+
+          <div>
+            <label for="inputExpectedReturn" class="block text-xs font-medium text-slate-300 mb-1">Expected Annual Portfolio Return (%)</label>
+            <input id="inputExpectedReturn" type="number" min="0" max="20" step="any" data-state-key="expectedReturn" class="w-full rounded-lg bg-slate-900 border border-slate-700 px-3 py-2 text-sm text-white tabular-nums focus:outline-none focus:border-emerald-500" />
+          </div>
+
+          <div>
+            <label for="inputReturnVolatility" class="block text-xs font-medium text-slate-300 mb-1">Annual Return Volatility / Std Dev (%) [Monte Carlo]</label>
+            <input id="inputReturnVolatility" type="number" min="1" max="35" step="any" data-state-key="returnVolatility" class="w-full rounded-lg bg-slate-900 border border-slate-700 px-3 py-2 text-sm text-white tabular-nums focus:outline-none focus:border-emerald-500" />
+          </div>
+
+          <div>
+            <label for="inputInflationRate" class="block text-xs font-medium text-slate-300 mb-1">Base Annual Inflation Rate (%) [Default 2.5%]</label>
+            <input id="inputInflationRate" type="number" min="0" max="12" step="any" data-state-key="inflationRate" class="w-full rounded-lg bg-slate-900 border border-slate-700 px-3 py-2 text-sm text-white tabular-nums focus:outline-none focus:border-emerald-500" />
+            <p class="text-[11px] text-slate-400 mt-1">Compounds living expenses, federal tax brackets, and the indexed WA State Capital Gains threshold</p>
+          </div>
+
+          <div class="grid grid-cols-2 gap-3 pt-2 border-t border-slate-800/80">
+            <div>
+              <label for="inputDividendYield" class="block text-xs font-medium text-slate-300 mb-1">Taxable Dividend Yield (%)</label>
+              <input id="inputDividendYield" type="number" min="0" max="10" step="any" data-state-key="taxableDividendYield" class="w-full rounded-lg bg-slate-900 border border-slate-700 px-3 py-2 text-sm text-white tabular-nums focus:outline-none focus:border-emerald-500" />
+            </div>
+            <div>
+              <label for="inputTurnoverRate" class="block text-xs font-medium text-slate-300 mb-1">Annual Realized Turnover (%)</label>
+              <input id="inputTurnoverRate" type="number" min="0" max="100" step="any" data-state-key="taxableTurnoverRate" class="w-full rounded-lg bg-slate-900 border border-slate-700 px-3 py-2 text-sm text-white tabular-nums focus:outline-none focus:border-emerald-500" />
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- ====================================================================
+         TAB 4: TRUST OPTIMIZATION (CRUT / Flip CRUT / CRAT / ILIT & SSRN-5924942 Engine)
+         ==================================================================== -->
+    <section data-tab-panel="trust" class="tab-panel hidden space-y-6">
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-6">
+
+        <!-- Left 5 Cols: Trust & ILIT Configuration Inputs -->
+        <div class="lg:col-span-5 glass-panel rounded-xl p-5 border border-slate-800 space-y-4">
+          <div class="flex items-center justify-between border-b border-slate-800 pb-3">
+            <div>
+              <h2 class="text-base font-bold text-white">Concentrated Stock &amp; Split-Interest Trust</h2>
+              <p class="text-xs text-slate-400">IRC § 664(b) 4-Tier WIFO &amp; § 7520 Valuation</p>
+            </div>
+            <label class="inline-flex items-center gap-2 cursor-pointer">
+              <input type="checkbox" data-state-key="trustEnabled" class="w-4 h-4 rounded accent-emerald-500" />
+              <span class="text-xs font-semibold text-emerald-300">Active</span>
+              <span class="field-tooltip" tabindex="0" data-tooltip="Check to include this CRUT, Flip CRUT, or CRAT in your overall retirement cash-flow, tax savings, and net worth simulation.">?</span>
+            </label>
+          </div>
+
+          <div class="grid grid-cols-2 gap-3">
+            <div>
+              <label for="inputTrustAssetValue" class="block text-xs font-medium text-slate-300 mb-1">
+                Concentrated Asset FMV ($)
+                <span class="field-tooltip" tabindex="0" data-tooltip="Enter the current Fair Market Value ($) of the appreciated stock or asset you are contributing to the trust at inception.">?</span>
+              </label>
+              <input id="inputTrustAssetValue" type="text" inputmode="decimal" data-currency-input="true" data-state-key="trustAssetValue" class="w-full rounded-lg bg-slate-900 border border-slate-700 px-3 py-2 text-sm text-white tabular-nums focus:outline-none focus:border-emerald-500" />
+            </div>
+            <div>
+              <label for="inputTrustCostBasis" class="block text-xs font-medium text-slate-300 mb-1">
+                Original Cost Basis ($)
+                <span class="field-tooltip" tabindex="0" data-tooltip="Enter your original tax cost basis ($) in the contributed asset. The untaxed appreciation (FMV minus Cost Basis) becomes Tier 2 Capital Gains inside the trust.">?</span>
+              </label>
+              <input id="inputTrustCostBasis" type="text" inputmode="decimal" data-currency-input="true" data-state-key="trustCostBasis" class="w-full rounded-lg bg-slate-900 border border-slate-700 px-3 py-2 text-sm text-white tabular-nums focus:outline-none focus:border-emerald-500" />
+            </div>
+          </div>
+
+          <div class="grid grid-cols-2 gap-3">
+            <div>
+              <label for="selectTrustType" class="block text-xs font-medium text-slate-300 mb-1">
+                Trust Structure
+                <span class="field-tooltip" tabindex="0" data-tooltip="Choose Standard CRUT (pays a fixed % of annual NAV starting immediately), Flip CRUT (defers payments while compounding tax-free until your chosen Payments Begin Year, then flips to a standard CRUT), or CRAT (pays a fixed dollar annuity based on initial FMV).">?</span>
+              </label>
+              <select id="selectTrustType" data-state-key="trustType" class="w-full rounded-lg bg-slate-900 border border-slate-700 px-3 py-2 text-sm text-white focus:outline-none focus:border-emerald-500">
+                <option value="CRUT">CRUT (Unitrust — % of Annual NAV)</option>
+                <option value="FLIP_CRUT">Flip CRUT (Deferred Unitrust — Specify Start Year)</option>
+                <option value="CRAT">CRAT (Annuity Trust — Fixed Initial %)</option>
+              </select>
+            </div>
+            <div>
+              <label for="selectTrustDurationType" class="block text-xs font-medium text-slate-300 mb-1">
+                Valuation Duration Mode (§ 7520)
+                <span class="field-tooltip" tabindex="0" data-tooltip="Select how long the trust will distribute income: Term of Years (fixed 1–20 years), Single-Life (one beneficiary's life expectancy), or Two-Life Last Survivor (until the second of two beneficiaries passes away).">?</span>
+              </label>
+              <select id="selectTrustDurationType" data-state-key="trustDurationType" class="w-full rounded-lg bg-slate-900 border border-slate-700 px-3 py-2 text-sm text-white focus:outline-none focus:border-emerald-500">
+                <option value="term">Term of Years</option>
+                <option value="single_life">Single-Life</option>
+                <option value="two_life">Two-Life Last Survivor</option>
+              </select>
+            </div>
+          </div>
+
+          <!-- Flip CRUT Payment Start Year Configuration (Shown when Trust Structure = FLIP_CRUT) -->
+          <div id="flipCrutConfigGroup" class="hidden bg-emerald-950/30 p-3.5 rounded-lg border border-emerald-500/30 space-y-2">
+            <div class="flex flex-wrap items-center justify-between gap-2">
+              <label for="inputTrustFlipStartYear" class="text-xs font-semibold text-emerald-300">
+                Flip CRUT — Year Payments Begin
+                <span class="field-tooltip" tabindex="0" data-tooltip="Specify the calendar year when the Flip CRUT converts ('flips' under Treas. Reg. § 1.664-3(a)(1)(i)(c)) into a standard fixed-percentage CRUT and begins making annual distributions. Prior to this year, trust assets compound 100% tax-free inside the trust with $0 distributions.">?</span>
+              </label>
+              <span id="flipCrutSummaryBadge" class="text-[11px] font-medium px-2 py-0.5 rounded bg-emerald-500/20 text-emerald-200 border border-emerald-500/30 tabular-nums">
+                5-Yr Deferral · Payments Begin 2031 (Age 60)
+              </span>
+            </div>
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 items-center">
+              <div>
+                <input id="inputTrustFlipStartYear" type="number" min="2026" max="2080" step="1" data-state-key="trustFlipStartYear" class="w-full rounded-lg bg-slate-900 border border-emerald-500/50 px-3 py-1.5 text-sm text-white font-semibold tabular-nums focus:outline-none focus:border-emerald-400" />
+              </div>
+              <p class="text-[11px] text-slate-300 leading-snug">
+                Assets compound tax-free inside the trust before flipping to a standard unitrust payout in the selected year.
+              </p>
+            </div>
+          </div>
+
+          <!-- Payout Rate Slider (5% - 15%) -->
+          <div class="bg-slate-900/80 p-3.5 rounded-lg border border-slate-800">
+            <div class="flex items-center justify-between mb-1.5">
+              <label for="rangeTrustPayoutRate" class="text-xs font-medium text-slate-300">
+                Stated Annual Payout Rate (<code class="text-emerald-300">r</code>)
+                <span class="field-tooltip" tabindex="0" data-tooltip="Select the annual percentage of trust assets paid out each year (statutory minimum 5.0%, up to 50%, subject to passing the IRS 10% charitable remainder test).">?</span>
+              </label>
+              <span id="trustPayoutRateDisplay" class="text-sm font-bold text-emerald-400 tabular-nums">6.00%</span>
+            </div>
+            <input id="rangeTrustPayoutRate" type="range" min="5.0" max="15.0" step="0.25" data-state-key="trustPayoutRate" class="w-full" />
+            <div class="flex justify-between text-[10px] text-slate-400 mt-1">
+              <span>5.0% Statutory Min</span>
+              <span>7.5% Balanced</span>
+              <span>10.0% High Cash-Flow</span>
+              <span>15.0%</span>
+            </div>
+          </div>
+
+          <!-- IRS § 7520 3-Month Rate Election Dropdown + Manual Override -->
+          <div class="bg-slate-900/80 p-3.5 rounded-lg border border-slate-800 space-y-2.5">
+            <div class="flex flex-wrap items-center justify-between gap-1">
+              <label for="selectSection7520Preset" class="text-xs font-medium text-slate-300">
+                IRS § 7520 Rate Election (Current or Prior 2 Months)
+                <span class="field-tooltip" tabindex="0" data-tooltip="Under IRC § 7520(a), you may elect the IRS § 7520 interest rate from the current month or either of the prior two months. The highest rate generally maximizes the charitable deduction, or you may override it below.">?</span>
+              </label>
+              <span id="irs7520SourceBadge" class="text-[10px] font-medium px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-300 border border-emerald-500/30">
+                IRS.gov Rev. Rul.
+              </span>
+            </div>
+            <p class="text-[11px] text-slate-400 leading-snug">
+              Choose from the current month or prior two months' IRS § 7520 rates. The highest rate is generally recommended, but you may override it below.
+            </p>
+            <div class="grid grid-cols-1 sm:grid-cols-3 gap-2.5 items-end">
+              <div class="sm:col-span-2">
+                <select id="selectSection7520Preset" class="w-full rounded-lg bg-slate-900 border border-slate-700 px-2.5 py-1.5 text-xs text-white focus:outline-none focus:border-emerald-500">
+                  <option value="5.6">October 2026 — 5.6% (Rev. Rul. 2026-19) [Highest — Recommended]</option>
+                  <option value="5.4">September 2026 — 5.4% (Rev. Rul. 2026-17)</option>
+                  <option value="5.2">August 2026 — 5.2% (Rev. Rul. 2026-13)</option>
+                  <option value="custom">Custom Override Rate...</option>
+                </select>
+              </div>
+              <div>
+                <label for="inputSection7520Rate" class="block text-[11px] font-medium text-slate-300 mb-1">
+                  § 7520 Override (<code class="text-emerald-300">i</code>, %)
+                  <span class="field-tooltip" tabindex="0" data-tooltip="Enter any custom § 7520 interest rate (rounded to the nearest 0.2%) to override the monthly dropdown selection.">?</span>
+                </label>
+                <input id="inputSection7520Rate" type="number" min="0.2" max="20.0" step="0.2" data-state-key="section7520Rate" class="w-full rounded-lg bg-slate-900 border border-slate-700 px-2.5 py-1.5 text-xs text-white tabular-nums focus:outline-none focus:border-emerald-500" />
+              </div>
+            </div>
+          </div>
+
+          <!-- Dynamic Term / Measuring Ages & Payment Timing Inputs (SSRN-5924942) -->
+          <div class="grid grid-cols-2 sm:grid-cols-4 gap-2.5">
+            <div id="trustTermYearsGroup">
+              <label for="inputTrustTermYears" class="block text-[11px] font-medium text-slate-300 mb-1">
+                Term (<code class="text-emerald-300">n</code>, 1–20 Yrs)
+                <span class="field-tooltip" tabindex="0" data-tooltip="Enter the fixed number of years (1 to 20 years max under IRC § 664(d)) that the trust will distribute payments before terminating to charity.">?</span>
+              </label>
+              <input id="inputTrustTermYears" type="number" min="1" max="20" step="1" data-state-key="trustTermYears" class="w-full rounded-lg bg-slate-900 border border-slate-700 px-2.5 py-1.5 text-xs text-white tabular-nums" />
+            </div>
+            <div id="trustMeasuringAge1Group" class="hidden">
+              <label for="inputTrustAge1" class="block text-[11px] font-medium text-slate-300 mb-1">
+                Life 1 Age (<code class="text-emerald-300">x</code>)
+                <span class="field-tooltip" tabindex="0" data-tooltip="Enter the age (nearest birthday, 20–105) of the first measuring life at trust inception for IRS Table 2010CM mortality valuation.">?</span>
+              </label>
+              <input id="inputTrustAge1" type="number" min="20" max="105" step="1" data-state-key="trustMeasuringAge1" class="w-full rounded-lg bg-slate-900 border border-slate-700 px-2.5 py-1.5 text-xs text-white tabular-nums" />
+            </div>
+            <div id="trustMeasuringAge2Group" class="hidden">
+              <label for="inputTrustAge2" class="block text-[11px] font-medium text-slate-300 mb-1">
+                Life 2 Age (<code class="text-emerald-300">y</code>)
+                <span class="field-tooltip" tabindex="0" data-tooltip="Enter the age (nearest birthday, 20–105) of the second measuring life (e.g., spouse) at trust inception for Two-Life Last Survivor valuation.">?</span>
+              </label>
+              <input id="inputTrustAge2" type="number" min="20" max="105" step="1" data-state-key="trustMeasuringAge2" class="w-full rounded-lg bg-slate-900 border border-slate-700 px-2.5 py-1.5 text-xs text-white tabular-nums" />
+            </div>
+            <div>
+              <label for="selectTrustFreq" class="block text-[11px] font-medium text-slate-300 mb-1">
+                Frequency (<code class="text-emerald-300">p</code>)
+                <span class="field-tooltip" tabindex="0" data-tooltip="Select how many times per year the trust pays distributions: Annual (1), Semi-Annual (2), Quarterly (4), or Monthly (12). Used in the IRS Table F factor.">?</span>
+              </label>
+              <select id="selectTrustFreq" data-state-key="trustPaymentFrequency" class="w-full rounded-lg bg-slate-900 border border-slate-700 px-2 py-1.5 text-xs text-white">
+                <option value="1">Annual (1)</option>
+                <option value="2">Semi-Annual (2)</option>
+                <option value="4">Quarterly (4)</option>
+                <option value="12">Monthly (12)</option>
+              </select>
+            </div>
+            <div>
+              <label for="inputTrustLag" class="block text-[11px] font-medium text-slate-300 mb-1">
+                Lag Months (<code class="text-emerald-300">d</code>)
+                <span class="field-tooltip" tabindex="0" data-tooltip="Enter the number of months (0 to 12) after the valuation date before the first installment is paid. Used with payment frequency to compute the IRS Table F factor.">?</span>
+              </label>
+              <input id="inputTrustLag" type="number" min="0" max="12" step="1" data-state-key="trustPaymentLagMonths" class="w-full rounded-lg bg-slate-900 border border-slate-700 px-2.5 py-1.5 text-xs text-white tabular-nums" />
+            </div>
+          </div>
+
+          <!-- Internal 4-Tier Return Decomposition -->
+          <div class="pt-2 border-t border-slate-800 space-y-2">
+            <h3 class="text-xs font-semibold uppercase tracking-wider text-amber-300">Internal Trust Reinvestment Return Split (IRC § 664(b))</h3>
+            <div class="grid grid-cols-3 gap-2.5">
+              <div>
+                <label for="inputTier1Return" class="block text-[11px] text-slate-300 mb-1">
+                  Tier 1 Ord Yield (%)
+                  <span class="field-tooltip" tabindex="0" data-tooltip="Enter the expected annual ordinary income yield (interest and non-qualified dividends, %) earned inside the trust. Distributed and taxed first under WIFO.">?</span>
+                </label>
+                <input id="inputTier1Return" type="number" min="0" max="15" step="any" data-state-key="trustTier1Return" class="w-full rounded-lg bg-slate-900 border border-slate-700 px-2.5 py-1.5 text-xs text-white tabular-nums" />
+              </div>
+              <div>
+                <label for="inputTier2Return" class="block text-[11px] text-slate-300 mb-1">
+                  Tier 2 Cap Growth (%)
+                  <span class="field-tooltip" tabindex="0" data-tooltip="Enter the expected annual capital gain growth rate (%) inside the trust. Distributed second under WIFO after Tier 1 is exhausted, and taxed as long-term capital gains.">?</span>
+                </label>
+                <input id="inputTier2Return" type="number" min="0" max="20" step="any" data-state-key="trustTier2Return" class="w-full rounded-lg bg-slate-900 border border-slate-700 px-2.5 py-1.5 text-xs text-white tabular-nums" />
+              </div>
+              <div>
+                <label for="inputTier3Return" class="block text-[11px] text-slate-300 mb-1">
+                  Tier 3 Tax-Exempt (%)
+                  <span class="field-tooltip" tabindex="0" data-tooltip="Enter the expected annual tax-exempt yield (e.g., municipal bond interest, %) inside the trust. Distributed third under WIFO after Tiers 1 and 2 are exhausted.">?</span>
+                </label>
+                <input id="inputTier3Return" type="number" min="0" max="10" step="any" data-state-key="trustTier3Return" class="w-full rounded-lg bg-slate-900 border border-slate-700 px-2.5 py-1.5 text-xs text-white tabular-nums" />
+              </div>
+            </div>
+          </div>
+
+          <!-- Wealth Replacement Trust (ILIT) Block -->
+          <div class="pt-3 border-t border-slate-800 space-y-3">
+            <div class="flex items-center justify-between">
+              <div>
+                <h3 class="text-sm font-bold text-white">Wealth Replacement Trust (ILIT)</h3>
+                <p class="text-[11px] text-slate-400">Replaces charitable remainder with tax-free life insurance benefit for heirs</p>
+              </div>
+              <label class="inline-flex items-center gap-2 cursor-pointer">
+                <input type="checkbox" data-state-key="ilitEnabled" class="w-4 h-4 rounded accent-emerald-500" />
+                <span class="text-xs font-semibold text-purple-300">Enable ILIT</span>
+                <span class="field-tooltip" tabindex="0" data-tooltip="Check to model an Irrevocable Life Insurance Trust (ILIT) funded with annual premiums to replace the charitable remainder with an estate- and income-tax-free death benefit for heirs.">?</span>
+              </label>
+            </div>
+            <div id="ilitInputsContainer" class="grid grid-cols-2 gap-3">
+              <div>
+                <label for="inputIlitPremium" class="block text-xs font-medium text-slate-300 mb-1">
+                  Annual ILIT Premium ($)
+                  <span class="field-tooltip" tabindex="0" data-tooltip="Enter the annual life insurance premium ($) gifted into the ILIT each year.">?</span>
+                </label>
+                <input id="inputIlitPremium" type="text" inputmode="decimal" data-currency-input="true" data-state-key="ilitAnnualPremium" class="w-full rounded-lg bg-slate-900 border border-slate-700 px-3 py-2 text-sm text-white tabular-nums" />
+              </div>
+              <div>
+                <label for="inputIlitBenefit" class="block text-xs font-medium text-slate-300 mb-1">
+                  Tax-Free Death Benefit ($)
+                  <span class="field-tooltip" tabindex="0" data-tooltip="Enter the tax-free life insurance death benefit ($) paid out by the ILIT to your heirs at life expectancy.">?</span>
+                </label>
+                <input id="inputIlitBenefit" type="text" inputmode="decimal" data-currency-input="true" data-state-key="ilitDeathBenefit" class="w-full rounded-lg bg-slate-900 border border-slate-700 px-3 py-2 text-sm text-white tabular-nums" />
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Right 7 Cols: Remainder Test Box + 4-Tier WIFO Waterfall + 6-Yr Carryforward -->
+        <div class="lg:col-span-7 space-y-6">
+          <!-- Remainder Test (Gottlieb SSRN-5924942 Equations 1-6) -->
+          <div class="glass-panel rounded-xl p-5 border border-slate-800 space-y-4">
+            <div class="flex flex-wrap items-center justify-between gap-2">
+              <div>
+                <h3 class="text-base font-bold text-white">Remainder Test</h3>
+                <p class="text-xs text-slate-400">IRC § 7520 &amp; Treas. Reg. § 1.664-4 Actuarial Valuation (Table F, Table D &amp; Table 2010CM)</p>
+              </div>
+              <span id="diag10PercentBadge" class="px-2.5 py-1 text-xs font-semibold rounded-full bg-emerald-500/20 text-emerald-300 border border-emerald-500/40">
+                PASSES 10% REMAINDER TEST
+              </span>
+            </div>
+
+            <div class="grid grid-cols-2 sm:grid-cols-5 gap-3 bg-slate-900/90 p-3.5 rounded-xl border border-slate-800 text-xs">
+              <div>
+                <span class="text-slate-400 block">§ 7520 Rate (<code class="text-emerald-300">i</code>)</span>
+                <span id="diag7520Rate" class="font-bold text-white tabular-nums">5.00%</span>
+              </div>
+              <div>
+                <span class="text-slate-400 block">Discount (<code class="text-emerald-300">v = 1/(1+i)</code>)</span>
+                <span id="diagDiscountFactorV" class="font-bold text-white tabular-nums">0.952381</span>
+              </div>
+              <div>
+                <span class="text-slate-400 block">Table F Factor (<code class="text-emerald-300">F(i,p,d)</code>)</span>
+                <span id="diagTableFFactor" class="font-bold text-emerald-300 tabular-nums">0.972145</span>
+              </div>
+              <div>
+                <span class="text-slate-400 block">Adjusted Rate (<code class="text-emerald-300">u = r×F</code>)</span>
+                <span id="diagAdjustedPayoutU" class="font-bold text-emerald-300 tabular-nums">6.3189%</span>
+              </div>
+              <div>
+                <span class="text-slate-400 block">Synthetic (<code class="text-emerald-300">ĩ = u/(1-u)</code>)</span>
+                <span id="diagSyntheticRateITilde" class="font-bold text-amber-300 tabular-nums">6.7451%</span>
+              </div>
+              <div>
+                <span class="text-slate-400 block">Decay (<code class="text-emerald-300">ṽ = 1 - u</code>)</span>
+                <span id="diagSyntheticDecayVTilde" class="font-bold text-amber-300 tabular-nums">0.936811</span>
+              </div>
+              <div>
+                <span class="text-slate-400 block">Remainder Factor (<code class="text-emerald-300">RF</code>)</span>
+                <span id="diagRemainderFactor" class="font-bold text-emerald-400 tabular-nums">27.10%</span>
+              </div>
+              <div>
+                <span class="text-slate-400 block">Upfront Tax Deduction</span>
+                <span id="diagCharitableDeduction" class="font-bold text-emerald-400 tabular-nums">$677,500</span>
+              </div>
+              <div>
+                <span class="text-slate-400 block">PV of NCB Stream</span>
+                <span id="diagPvIncomeStream" class="font-bold text-slate-200 tabular-nums">$1,822,500</span>
+              </div>
+              <div>
+                <span class="text-slate-400 block">Max Payout (10% Test)</span>
+                <span id="diagMaxAllowablePayout" class="font-bold text-sky-300 tabular-nums">11.20%</span>
+              </div>
+            </div>
+
+            <!-- Initial 4-Tier Accounting Ledger Upon Sale Inside Trust -->
+            <div class="grid grid-cols-2 sm:grid-cols-4 gap-3 pt-1">
+              <div class="p-3 rounded-lg bg-slate-900/70 border border-rose-500/30">
+                <span class="text-[11px] font-semibold text-rose-300 block">Tier 1: Ordinary Income</span>
+                <span id="diagTier1Init" class="text-sm font-bold text-white tabular-nums">$0</span>
+                <span class="text-[10px] text-slate-400 block mt-0.5">WIFO Priority #1 (Ord Tax + NIIT)</span>
+              </div>
+              <div class="p-3 rounded-lg bg-slate-900/70 border border-amber-500/30">
+                <span class="text-[11px] font-semibold text-amber-300 block">Tier 2: Untaxed Cap Gains</span>
+                <span id="diagTier2Init" class="text-sm font-bold text-white tabular-nums">$2,350,000</span>
+                <span class="text-[10px] text-slate-400 block mt-0.5">WIFO Priority #2 (LTCG + WA 7% + NIIT)</span>
+              </div>
+              <div class="p-3 rounded-lg bg-slate-900/70 border border-blue-500/30">
+                <span class="text-[11px] font-semibold text-blue-300 block">Tier 3: Tax-Exempt Income</span>
+                <span id="diagTier3Init" class="text-sm font-bold text-white tabular-nums">$0</span>
+                <span class="text-[10px] text-slate-400 block mt-0.5">WIFO Priority #3 (Muni Bond Interest)</span>
+              </div>
+              <div class="p-3 rounded-lg bg-slate-900/70 border border-emerald-500/30">
+                <span class="text-[11px] font-semibold text-emerald-300 block">Tier 4: Corpus / Principal</span>
+                <span id="diagTier4Init" class="text-sm font-bold text-white tabular-nums">$150,000</span>
+                <span class="text-[10px] text-slate-400 block mt-0.5">WIFO Priority #4 (Tax-Free Return)</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Chart 5: 4-Tier WIFO Distribution Waterfall Chart -->
+          <div class="glass-panel rounded-xl p-5 border border-slate-800 space-y-3">
+            <h3 class="text-sm font-bold text-white">Annual IRC § 664(b) 4-Tier "Worst-In, First-Out" (WIFO) Distribution Breakdown</h3>
+            <div class="h-[240px] w-full">
+              <canvas id="chartTrustWifo" aria-label="4-Tier WIFO Trust Distribution Chart"></canvas>
+            </div>
+          </div>
+
+          <!-- 6-Year Charitable Deduction Carryforward Schedule -->
+          <div class="glass-panel rounded-xl p-5 border border-slate-800 space-y-3">
+            <h3 class="text-sm font-bold text-white">Upfront Charitable Deduction Utilization (Year 1 + 6-Year Carryforward Window)</h3>
+            <div tabindex="0" role="region" aria-label="Charitable Deduction Carryforward Schedule" class="table-wrapper">
+              <table class="text-left">
+                <thead class="bg-slate-900 text-slate-400 text-[11px] uppercase">
+                  <tr>
+                    <th class="py-2 px-3">Tax Year</th>
+                    <th class="py-2 px-3 text-right">Projected AGI</th>
+                    <th class="py-2 px-3 text-right">Deduction Used</th>
+                    <th class="py-2 px-3 text-right">Remaining Carryforward</th>
+                    <th class="py-2 px-3 text-right">Direct Tax Saved</th>
+                  </tr>
+                </thead>
+                <tbody id="charitableCarryforwardTableBody"></tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- ====================================================================
+         TAB 5: TAX & MELTDOWN PLANNING (Roth, Early Draws, WA 7% Cap Gains, NIIT)
+         ==================================================================== -->
+    <section data-tab-panel="tax" class="tab-panel hidden space-y-6">
+      <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+
+        <!-- Block 1: Strategic Pre-Tax Meltdown & Roth Conversions -->
+        <div class="glass-panel rounded-xl p-5 border border-slate-800 space-y-4">
+          <div class="border-b border-slate-800 pb-2.5">
+            <h2 class="text-base font-bold text-white">1. Strategic Tax Meltdown &amp; Roth Conversions</h2>
+            <p class="text-xs text-slate-400">Proactively draw down Traditional IRA/401k balances (ages 59.5 to 75) to mitigate age-75 RMD tax shocks</p>
+          </div>
+
+          <div>
+            <label for="inputRothConvAnnual" class="block text-xs font-medium text-slate-300 mb-1">Annual Roth Conversion Amount ($)</label>
+            <input id="inputRothConvAnnual" type="text" inputmode="decimal" data-currency-input="true" data-state-key="rothConversionAnnual" class="w-full rounded-lg bg-slate-900 border border-slate-700 px-3 py-2 text-sm text-white tabular-nums focus:outline-none focus:border-emerald-500" />
+          </div>
+
+          <div class="grid grid-cols-2 gap-3">
+            <div>
+              <label for="inputRothConvStart" class="block text-xs font-medium text-slate-300 mb-1">Roth Conv Start Age</label>
+              <input id="inputRothConvStart" type="number" min="50" max="90" step="1" data-state-key="rothConversionStartAge" class="w-full rounded-lg bg-slate-900 border border-slate-700 px-3 py-2 text-sm text-white tabular-nums" />
+            </div>
+            <div>
+              <label for="inputRothConvEnd" class="block text-xs font-medium text-slate-300 mb-1">Roth Conv End Age</label>
+              <input id="inputRothConvEnd" type="number" min="50" max="95" step="1" data-state-key="rothConversionEndAge" class="w-full rounded-lg bg-slate-900 border border-slate-700 px-3 py-2 text-sm text-white tabular-nums" />
+            </div>
+          </div>
+
+          <div class="pt-2 border-t border-slate-800/80 space-y-3">
+            <div>
+              <label for="inputEarlyPreTaxAnnual" class="block text-xs font-medium text-slate-300 mb-1">Early Pre-Tax Distribution Schedule (Ages 59.5–75) ($/yr)</label>
+              <input id="inputEarlyPreTaxAnnual" type="text" inputmode="decimal" data-currency-input="true" data-state-key="earlyPreTaxDrawAnnual" class="w-full rounded-lg bg-slate-900 border border-slate-700 px-3 py-2 text-sm text-white tabular-nums focus:outline-none focus:border-emerald-500" />
+              <p class="text-[11px] text-slate-400 mt-1">Penalty-free distributions after age 59.5 to smooth ordinary tax brackets prior to Age 75 RMDs</p>
+            </div>
+            <div class="grid grid-cols-2 gap-3">
+              <div>
+                <label for="inputEarlyDrawStart" class="block text-xs font-medium text-slate-300 mb-1">Early Draw Start Age</label>
+                <input id="inputEarlyDrawStart" type="number" min="59" max="74" step="1" data-state-key="earlyPreTaxStartAge" class="w-full rounded-lg bg-slate-900 border border-slate-700 px-3 py-2 text-sm text-white tabular-nums" />
+              </div>
+              <div>
+                <label for="inputEarlyDrawEnd" class="block text-xs font-medium text-slate-300 mb-1">Early Draw End Age</label>
+                <input id="inputEarlyDrawEnd" type="number" min="60" max="75" step="1" data-state-key="earlyPreTaxEndAge" class="w-full rounded-lg bg-slate-900 border border-slate-700 px-3 py-2 text-sm text-white tabular-nums" />
+              </div>
+            </div>
+          </div>
+
+          <div class="pt-2 border-t border-slate-800/80">
+            <label for="selectCharitableAgiLimit" class="block text-xs font-medium text-slate-300 mb-1">Charitable Deduction AGI Limit Dropdown</label>
+            <select id="selectCharitableAgiLimit" data-state-key="charitableAgiLimit" class="w-full rounded-lg bg-slate-900 border border-slate-700 px-3 py-2 text-sm text-white focus:outline-none focus:border-emerald-500">
+              <option value="30">30% of AGI (Public Charity Appreciated Capital Gain Property)</option>
+              <option value="20">20% of AGI (Private Foundation / Certain Split-Interest Elections)</option>
+            </select>
+            <p class="text-[11px] text-slate-400 mt-1">Unused charitable deduction carries forward for up to 6 years (IRC § 170(d)(1))</p>
+          </div>
+        </div>
+
+        <!-- Block 2: Dedicated Washington State Capital Gains Excise Tax Block -->
+        <div class="glass-panel rounded-xl p-5 border border-rose-900/40 space-y-4">
+          <div class="flex items-center justify-between border-b border-slate-800 pb-2.5">
+            <div>
+              <h2 class="text-base font-bold text-white">2. Washington State Capital Gains Tax</h2>
+              <p class="text-xs text-rose-300/90">Tiered Rates (7.0% &le;$1M / 9.9% &gt;$1M) with Annual CPI Indexing</p>
+            </div>
+            <label class="inline-flex items-center gap-2 cursor-pointer">
+              <input type="checkbox" data-state-key="waCapGainsEnabled" class="w-4 h-4 rounded accent-emerald-500" />
+              <span class="text-xs font-semibold text-rose-300">Enabled</span>
+            </label>
+          </div>
+
+          <div>
+            <label for="inputWaThreshold" class="block text-xs font-medium text-slate-300 mb-1">Base WA State Capital Gains Tax Standard Deduction ($)</label>
+            <input id="inputWaThreshold" type="text" inputmode="decimal" data-currency-input="true" data-state-key="waCapGainsBaseThreshold" class="w-full rounded-lg bg-slate-900 border border-slate-700 px-3 py-2 text-sm text-white tabular-nums focus:outline-none focus:border-emerald-500" />
+            <p class="text-[11px] text-slate-400 mt-1">
+              The annual inflation-adjusted WA standard deduction is <strong>$278,000 for 2025</strong> (and indexed for 2026+ by compounding annually at your general inflation rate).
+            </p>
+          </div>
+
+          <div class="flex flex-wrap gap-2">
+            <button id="btnWaPreset278k" type="button" class="px-2.5 py-1.5 text-xs font-semibold rounded-lg bg-emerald-600/20 hover:bg-emerald-600/30 text-emerald-300 border border-emerald-500/30 transition">
+              Use $278,000 (2025 Standard Deduction, Indexed for 2026+)
+            </button>
+            <button id="btnWaPreset250k" type="button" class="px-2.5 py-1.5 text-xs font-semibold rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-300 border border-slate-700 transition">
+              Use $250,000 (Original Statutory Base)
+            </button>
+          </div>
+
+          <!-- Dynamic CPI Threshold Trajectory Preview -->
+          <div class="bg-slate-900/90 p-3.5 rounded-xl border border-slate-800 space-y-2">
+            <span class="text-[11px] font-semibold uppercase tracking-wider text-slate-400 block">Compounded CPI Threshold Trajectory</span>
+            <div class="grid grid-cols-3 gap-2 text-xs font-semibold text-white tabular-nums">
+              <div id="waThresholdYr0" class="p-2 rounded bg-slate-950 border border-slate-800">2026: $284,950</div>
+              <div id="waThresholdYr10" class="p-2 rounded bg-slate-950 border border-slate-800">2036: $364,760</div>
+              <div id="waThresholdYr20" class="p-2 rounded bg-slate-950 border border-slate-800">2046: $466,924</div>
+            </div>
+          </div>
+
+          <div class="p-3 rounded-lg bg-slate-900/60 border border-slate-800 text-xs text-slate-300 space-y-1">
+            <div class="font-semibold text-emerald-300">Active Statutory Rules (RCW 82.87):</div>
+            <ul class="list-disc list-inside text-[11px] text-slate-400 space-y-1">
+              <li><strong>Exempted:</strong> Real estate, retirement accounts (IRAs/401ks/Roth), and the initial sale of appreciated stock inside a CRUT/CRAT.</li>
+              <li><strong>Tiered Rates (7.0% &amp; 9.9%):</strong> 7.0% applies to taxable LTCG up to $1,000,000 (after the CPI-indexed standard deduction); 9.9% applies to taxable LTCG exceeding $1,000,000 (e.g. from taxable brokerage sales and CRUT/CRAT Tier 2 gains).</li>
+            </ul>
+          </div>
+        </div>
+
+        <!-- Block 3: Dedicated Federal Net Investment Income Tax (NIIT) Block -->
+        <div class="glass-panel rounded-xl p-5 border border-amber-900/40 space-y-4">
+          <div class="flex items-center justify-between border-b border-slate-800 pb-2.5">
+            <div>
+              <h2 class="text-base font-bold text-white">3. Federal Net Investment Income Tax (NIIT)</h2>
+              <p class="text-xs text-amber-300/90">IRC § 1411 3.8% Medicare Surtax Engine</p>
+            </div>
+            <label class="inline-flex items-center gap-2 cursor-pointer">
+              <input type="checkbox" data-state-key="niitEnabled" class="w-4 h-4 rounded accent-emerald-500" />
+              <span class="text-xs font-semibold text-amber-300">Enabled</span>
+            </label>
+          </div>
+
+          <div>
+            <label for="selectFilingStatus" class="block text-xs font-medium text-slate-300 mb-1">Filing Status &amp; Statutory NIIT Threshold</label>
+            <select id="selectFilingStatus" data-state-key="filingStatus" class="w-full rounded-lg bg-slate-900 border border-slate-700 px-3 py-2 text-sm text-white focus:outline-none focus:border-emerald-500">
+              <option value="MFJ">Married Filing Jointly — $250,000 MAGI Threshold</option>
+              <option value="Single">Single — $200,000 MAGI Threshold</option>
+            </select>
+            <p class="text-[11px] text-slate-400 mt-1">Affects both progressive Federal Ordinary/LTCG tax brackets and the unindexed NIIT MAGI threshold</p>
+          </div>
+
+          <div class="p-3.5 rounded-xl bg-slate-900/90 border border-slate-800 text-xs space-y-2">
+            <div class="font-semibold text-amber-300">NIIT Exposure Formula (3.8% Surtax):</div>
+            <p class="text-[11px] text-slate-300 leading-relaxed">
+              Applies <code class="text-amber-300">3.8%</code> to the lesser of:
+            </p>
+            <ol class="list-decimal list-inside text-[11px] text-slate-400 space-y-1">
+              <li><strong>Net Investment Income (NII):</strong> Taxable brokerage dividends &amp; realized capital gains + CRUT/CRAT Tier 1 (ordinary) &amp; Tier 2 (capital gains) distributions.</li>
+              <li><strong>MAGI Excess:</strong> Total Modified Adjusted Gross Income (including earned income, Pre-Tax draws, RMDs, Roth conversions, and NII) minus the statutory threshold (<code class="text-slate-200">$200k Single / $250k MFJ</code>).</li>
+            </ol>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- ====================================================================
+         TAB 6: LIABILITIES (Existing Mortgage & $750k Tax Deduction Engine)
+         ==================================================================== -->
+    <section data-tab-panel="liabilities" class="tab-panel hidden space-y-6">
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-6">
+
+        <!-- Block 1: Existing Mortgage & ARM Scenario Engine -->
+        <div class="lg:col-span-6 glass-panel rounded-xl p-5 border border-slate-800 space-y-4">
+          <div class="flex items-center justify-between border-b border-slate-800 pb-2.5">
+            <div>
+              <h2 class="text-base font-bold text-white">Adjustable Rate Mortgage (ARM) &amp; Payoff Engine</h2>
+              <p class="text-xs text-slate-400">Monthly P&amp;I compounding, post-reset re-amortization, and lump-sum scenario modeling</p>
+            </div>
+            <label class="inline-flex items-center gap-2 cursor-pointer">
+              <input type="checkbox" data-state-key="mortgageEnabled" class="w-4 h-4 rounded accent-emerald-500" />
+              <span class="text-xs font-semibold text-emerald-300">Active</span>
+            </label>
+          </div>
+
+          <!-- Balance and Current Rate -->
+          <div class="grid grid-cols-2 gap-4">
+            <div>
+              <label for="inputMortgageBalance" class="block text-xs font-medium text-slate-300 mb-1">Remaining Principal Balance ($)</label>
+              <input id="inputMortgageBalance" type="text" inputmode="decimal" data-currency-input="true" placeholder="e.g. 642,518.40" data-state-key="mortgageBalance" class="w-full rounded-lg bg-slate-900 border border-slate-700 px-3 py-2 text-sm text-white tabular-nums focus:outline-none focus:border-emerald-500" />
+            </div>
+            <div>
+              <label for="inputMortgageRate" class="block text-xs font-medium text-slate-300 mb-1">Current Interest Rate (%)</label>
+              <input id="inputMortgageRate" type="number" min="0" max="25" step="0.001" data-state-key="mortgageRate" class="w-full rounded-lg bg-slate-900 border border-slate-700 px-3 py-2 text-sm text-white tabular-nums focus:outline-none focus:border-emerald-500" />
+            </div>
+          </div>
+
+          <!-- Loan Origination, Maturity & Amortization Schedule -->
+          <div class="p-3.5 rounded-xl bg-slate-900/90 border border-slate-800 space-y-3">
+            <div class="flex items-center justify-between">
+              <span class="text-xs font-semibold text-emerald-300">Loan Timeline &amp; Amortization Term</span>
+              <span id="mortgageRemainingTermBadge" class="text-[11px] text-slate-400">Loan ends Nov 2051</span>
+            </div>
+            <div class="grid grid-cols-2 sm:grid-cols-4 gap-2.5">
+              <div>
+                <label for="selectMortgageOrigMonth" class="block text-[11px] font-medium text-slate-300 mb-1">Origination Month</label>
+                <select id="selectMortgageOrigMonth" data-state-key="mortgageOriginationMonth" class="w-full rounded-lg bg-slate-950 border border-slate-700 px-2 py-1.5 text-xs text-white focus:outline-none focus:border-emerald-500">
+                  <option value="1">January</option>
+                  <option value="2">February</option>
+                  <option value="3">March</option>
+                  <option value="4">April</option>
+                  <option value="5">May</option>
+                  <option value="6">June</option>
+                  <option value="7">July</option>
+                  <option value="8">August</option>
+                  <option value="9">September</option>
+                  <option value="10">October</option>
+                  <option value="11">November</option>
+                  <option value="12">December</option>
+                </select>
+              </div>
+              <div>
+                <label for="inputMortgageOrigYear" class="block text-[11px] font-medium text-slate-300 mb-1">Origination Year</label>
+                <input id="inputMortgageOrigYear" type="number" min="1990" max="2050" step="1" data-state-key="mortgageOriginationYear" class="w-full rounded-lg bg-slate-950 border border-slate-700 px-2 py-1.5 text-xs text-white tabular-nums focus:outline-none focus:border-emerald-500" />
+              </div>
+              <div>
+                <label for="selectMortgageMaturityMonth" class="block text-[11px] font-medium text-slate-300 mb-1">Maturity Month</label>
+                <select id="selectMortgageMaturityMonth" data-state-key="mortgageMaturityMonth" class="w-full rounded-lg bg-slate-950 border border-slate-700 px-2 py-1.5 text-xs text-white focus:outline-none focus:border-emerald-500">
+                  <option value="1">January</option>
+                  <option value="2">February</option>
+                  <option value="3">March</option>
+                  <option value="4">April</option>
+                  <option value="5">May</option>
+                  <option value="6">June</option>
+                  <option value="7">July</option>
+                  <option value="8">August</option>
+                  <option value="9">September</option>
+                  <option value="10">October</option>
+                  <option value="11">November</option>
+                  <option value="12">December</option>
+                </select>
+              </div>
+              <div>
+                <label for="inputMortgageMaturityYear" class="block text-[11px] font-medium text-slate-300 mb-1">Maturity Year</label>
+                <input id="inputMortgageMaturityYear" type="number" min="2026" max="2080" step="1" data-state-key="mortgageMaturityYear" class="w-full rounded-lg bg-slate-950 border border-slate-700 px-2 py-1.5 text-xs text-white tabular-nums focus:outline-none focus:border-emerald-500" />
+              </div>
+            </div>
+            <div class="grid grid-cols-2 gap-3 pt-1 border-t border-slate-800/60">
+              <div>
+                <label for="inputMortgageOriginalTermYears" class="block text-[11px] font-medium text-slate-300 mb-1">Original Amortization Term (Years)</label>
+                <input id="inputMortgageOriginalTermYears" type="number" min="1" max="50" step="1" data-state-key="mortgageOriginalTermYears" class="w-full rounded-lg bg-slate-950 border border-slate-700 px-2 py-1.5 text-xs text-white tabular-nums focus:outline-none focus:border-emerald-500" />
+              </div>
+              <div>
+                <div class="flex items-center justify-between mb-1">
+                  <label for="inputMortgageMonthlyPayment" class="text-[11px] font-medium text-slate-300">Current Monthly P&amp;I ($)</label>
+                  <button id="btnAutoCalcMortgagePayment" type="button" class="text-[10px] text-emerald-400 hover:text-emerald-300 underline font-medium">Auto-Calculate</button>
+                </div>
+                <input id="inputMortgageMonthlyPayment" type="text" inputmode="decimal" data-currency-input="true" placeholder="0 = Auto-calculate" data-state-key="mortgageMonthlyPayment" class="w-full rounded-lg bg-slate-950 border border-slate-700 px-2 py-1.5 text-xs text-white tabular-nums focus:outline-none focus:border-emerald-500" />
+              </div>
+            </div>
+          </div>
+
+          <!-- ARM Reset Settings -->
+          <div class="p-3.5 rounded-xl bg-slate-900/90 border border-slate-800 space-y-3">
+            <div class="flex items-center justify-between">
+              <span class="text-xs font-semibold text-emerald-300">ARM Rate Reset Parameters</span>
+              <span class="text-[11px] text-slate-400">Re-amortizes remaining balance over remaining term</span>
+            </div>
+            <div class="grid grid-cols-3 gap-3">
+              <div>
+                <label for="selectMortgageResetMonth" class="block text-[11px] font-medium text-slate-300 mb-1">Reset Month</label>
+                <select id="selectMortgageResetMonth" data-state-key="mortgageResetMonth" class="w-full rounded-lg bg-slate-950 border border-slate-700 px-2 py-1.5 text-xs text-white focus:outline-none focus:border-emerald-500">
+                  <option value="1">January</option>
+                  <option value="2">February</option>
+                  <option value="3">March</option>
+                  <option value="4">April</option>
+                  <option value="5">May</option>
+                  <option value="6" selected>June</option>
+                  <option value="7">July</option>
+                  <option value="8">August</option>
+                  <option value="9">September</option>
+                  <option value="10">October</option>
+                  <option value="11">November</option>
+                  <option value="12">December</option>
+                </select>
+              </div>
+              <div>
+                <label for="inputMortgageResetYear" class="block text-[11px] font-medium text-slate-300 mb-1">Reset Year</label>
+                <input id="inputMortgageResetYear" type="number" min="2026" max="2080" step="1" data-state-key="mortgageResetYear" class="w-full rounded-lg bg-slate-950 border border-slate-700 px-2 py-1.5 text-xs text-white tabular-nums focus:outline-none focus:border-emerald-500" />
+              </div>
+              <div>
+                <label for="inputMortgagePostRate" class="block text-[11px] font-medium text-slate-300 mb-1">Post-Reset Rate (%)</label>
+                <input id="inputMortgagePostRate" type="number" min="0" max="25" step="0.001" data-state-key="mortgagePostAdjustmentRate" class="w-full rounded-lg bg-slate-950 border border-slate-700 px-2 py-1.5 text-xs text-white tabular-nums focus:outline-none focus:border-emerald-500" />
+              </div>
+            </div>
+          </div>
+
+          <!-- Scenario Selection Quick-Toggles -->
+          <div class="space-y-2">
+            <span class="block text-xs font-semibold uppercase tracking-wider text-slate-400">Payoff Strategy Scenarios</span>
+            <div class="grid grid-cols-3 gap-2">
+              <button id="btnScenarioArmReset" type="button" class="scenario-btn p-2.5 rounded-lg border border-emerald-500/50 bg-emerald-950/30 text-emerald-300 text-left transition flex flex-col justify-between" data-scenario="arm_reset">
+                <span class="text-xs font-bold">1. Pay at Reset</span>
+                <span class="text-[10px] text-slate-400 mt-1">Payoff just before ARM rate changes</span>
+              </button>
+              <button id="btnScenarioPostReset" type="button" class="scenario-btn p-2.5 rounded-lg border border-slate-700 bg-slate-900 text-slate-300 text-left transition flex flex-col justify-between" data-scenario="post_reset">
+                <span class="text-xs font-bold">2. Pay Post-Reset</span>
+                <span class="text-[10px] text-slate-400 mt-1">Pay new rate until target date</span>
+              </button>
+              <button id="btnScenarioKeepLoan" type="button" class="scenario-btn p-2.5 rounded-lg border border-slate-700 bg-slate-900 text-slate-300 text-left transition flex flex-col justify-between" data-scenario="keep_loan">
+                <span class="text-xs font-bold">3. Keep Loan</span>
+                <span class="text-[10px] text-slate-400 mt-1">No lump sum; amortize through term</span>
+              </button>
+            </div>
+          </div>
+
+          <!-- Post-Reset Payoff Timing (Visible when post_reset is selected) -->
+          <div id="mortgagePostResetTimingBlock" class="p-3 rounded-lg bg-slate-900/60 border border-slate-800 space-y-2">
+            <span class="text-xs font-medium text-slate-300 block">Post-Reset Payoff Execution Date</span>
+            <div class="grid grid-cols-2 gap-3">
+              <div>
+                <label for="selectMortgagePayoffMonth" class="block text-[11px] font-medium text-slate-400 mb-1">Payoff Month</label>
+                <select id="selectMortgagePayoffMonth" data-state-key="mortgagePayoffMonth" class="w-full rounded-lg bg-slate-900 border border-slate-700 px-2 py-1.5 text-xs text-white focus:outline-none focus:border-emerald-500">
+                  <option value="1">January</option>
+                  <option value="2">February</option>
+                  <option value="3">March</option>
+                  <option value="4">April</option>
+                  <option value="5" selected>May</option>
+                  <option value="6">June</option>
+                  <option value="7">July</option>
+                  <option value="8">August</option>
+                  <option value="9">September</option>
+                  <option value="10">October</option>
+                  <option value="11">November</option>
+                  <option value="12">December</option>
+                </select>
+              </div>
+              <div>
+                <label for="inputMortgageTargetYear" class="block text-[11px] font-medium text-slate-400 mb-1">Payoff Year</label>
+                <input id="inputMortgageTargetYear" type="number" min="2026" max="2080" step="1" data-state-key="mortgageTargetPayoffYear" class="w-full rounded-lg bg-slate-900 border border-slate-700 px-2 py-1.5 text-xs text-white tabular-nums focus:outline-none focus:border-emerald-500" />
+              </div>
+            </div>
+          </div>
+
+          <!-- Funding Account Selection & Tax Gross-Up -->
+          <div class="space-y-3 pt-2 border-t border-slate-800/80">
+            <div>
+              <label for="selectMortgageAccount" class="block text-xs font-medium text-slate-300 mb-1">Funding Account for Lump-Sum Payoff</label>
+              <select id="selectMortgageAccount" data-state-key="mortgageAccountId" class="w-full rounded-lg bg-slate-900 border border-slate-700 px-3 py-2 text-sm text-white focus:outline-none focus:border-emerald-500">
+                <option value="pre_tax">Pre-Tax Retirement Bucket (401(k) / Traditional IRA)</option>
+                <option value="taxable">Taxable Brokerage Bucket</option>
+                <option value="roth">Roth IRA Bucket (Tax-Free)</option>
+              </select>
+              <p class="text-[11px] text-slate-400 mt-1">Select a specific imported account or standard asset bucket</p>
+            </div>
+
+            <!-- Pre-Tax Gross-Up Checkbox -->
+            <div id="mortgageGrossUpContainer" class="p-3 rounded-lg bg-slate-900/60 border border-slate-800 flex items-start gap-2.5">
+              <input id="chkMortgageGrossUp" type="checkbox" data-state-key="mortgageGrossUpTax" class="w-4 h-4 mt-0.5 rounded accent-emerald-500" />
+              <label for="chkMortgageGrossUp" class="text-xs text-slate-300 cursor-pointer">
+                <span class="font-semibold text-white block">Gross Up Pre-Tax Distribution for Taxes</span>
+                <span class="text-slate-400 text-[11px] block mt-0.5">Withdraws additional pre-tax funds so after-tax proceeds equal the exact mortgage balance. If unchecked, the exact balance is withdrawn and resulting taxes are paid from other cash flow.</span>
+              </label>
+            </div>
+
+            <!-- Age Warning for Pre-59.5 Penalty -->
+            <div id="mortgagePreTaxAgeWarning" class="hidden p-3 rounded-lg bg-amber-500/15 border border-amber-500/30 text-xs text-amber-200">
+              <span class="font-semibold">IRC § 72(t) Notice:</span> Paying off the loan prior to age 59.5 via a Pre-Tax distribution incurs an additional 10% early withdrawal penalty. At age 59.5+, distributions are penalty-free ordinary income.
+            </div>
+          </div>
+        </div>
+
+        <!-- Block 2: Dedicated Mortgage Scenario Comparison Card & Diagnostics -->
+        <div class="lg:col-span-6 glass-panel rounded-xl p-5 border border-slate-800 space-y-4">
+          <div class="flex items-center justify-between border-b border-slate-800 pb-2.5">
+            <div>
+              <h3 class="text-base font-bold text-white">Mortgage Scenario Comparison &amp; Impact</h3>
+              <p class="text-xs text-slate-400">Side-by-side analysis of ARM reset shock, interest savings, and net worth impact</p>
+            </div>
+            <span id="mortgageActiveScenarioBadge" class="px-2.5 py-1 text-[11px] font-semibold rounded-full bg-emerald-500/20 text-emerald-300 border border-emerald-500/30">
+              Payoff at ARM Reset
+            </span>
+          </div>
+
+          <!-- Payment Shock Card -->
+          <div class="p-4 rounded-xl bg-slate-900/90 border border-slate-800">
+            <span class="text-[11px] font-semibold uppercase tracking-wider text-slate-400 block">ARM Monthly Payment Shock</span>
+            <div class="grid grid-cols-3 gap-3 mt-2 text-center">
+              <div class="p-2.5 rounded-lg bg-slate-950 border border-slate-800">
+                <span class="text-[10px] text-slate-400 block">Current Monthly P&amp;I</span>
+                <span id="cardMortgagePrePayment" class="text-base font-bold text-white tabular-nums">$0</span>
+              </div>
+              <div class="p-2.5 rounded-lg bg-slate-950 border border-slate-800">
+                <span class="text-[10px] text-slate-400 block">Post-Reset Monthly P&amp;I</span>
+                <span id="cardMortgagePostPayment" class="text-base font-bold text-rose-400 tabular-nums">$0</span>
+              </div>
+              <div class="p-2.5 rounded-lg bg-slate-950 border border-slate-800">
+                <span class="text-[10px] text-slate-400 block">Payment Increase</span>
+                <span id="cardMortgagePaymentShock" class="text-base font-bold text-amber-400 tabular-nums">+$0/mo</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Scenario Comparison Table / Grid -->
+          <div class="p-4 rounded-xl bg-slate-900/90 border border-slate-800 space-y-3">
+            <span class="text-[11px] font-semibold uppercase tracking-wider text-slate-400 block">Lifetime Cost Comparison vs. Baseline</span>
+            <div class="grid grid-cols-2 gap-3">
+              <div class="p-3 rounded-lg bg-slate-950 border border-slate-800">
+                <span class="text-[11px] text-slate-400 block">Lifetime Interest Saved</span>
+                <span id="cardMortgageInterestSaved" class="text-xl font-bold text-emerald-400 tabular-nums mt-1 block">$0</span>
+                <span id="cardMortgageInterestSavedSub" class="text-[10px] text-slate-400 block mt-0.5">vs. keeping loan through term</span>
+              </div>
+              <div class="p-3 rounded-lg bg-slate-950 border border-slate-800">
+                <span class="text-[11px] text-slate-400 block">Lump-Sum Payoff Balance</span>
+                <span id="cardMortgagePayoffBalance" class="text-xl font-bold text-sky-400 tabular-nums mt-1 block">$0</span>
+                <span id="cardMortgagePayoffDateSub" class="text-[10px] text-slate-400 block mt-0.5">at payoff execution</span>
+              </div>
+              <div class="p-3 rounded-lg bg-slate-950 border border-slate-800">
+                <span class="text-[11px] text-slate-400 block">Year 1 Total Payment</span>
+                <span id="mortgageFirstYearPayment" class="text-lg font-bold text-white tabular-nums mt-1 block">$0</span>
+                <span class="text-[10px] text-slate-400 block mt-0.5">P&amp;I scheduled in 2026</span>
+              </div>
+              <div class="p-3 rounded-lg bg-slate-950 border border-slate-800">
+                <span class="text-[11px] text-slate-400 block">Lifetime Deductible Interest</span>
+                <span id="mortgageLifetimeDeductible" class="text-lg font-bold text-indigo-300 tabular-nums mt-1 block">$0</span>
+                <span class="text-[10px] text-slate-400 block mt-0.5">Subject to § 163(h) $750k cap</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Dynamic Analysis Narrative -->
+          <div id="mortgageNarrativeCard" class="p-3.5 rounded-lg bg-slate-900/60 border border-slate-800 text-xs text-slate-300 leading-relaxed space-y-1.5">
+            <div class="font-semibold text-emerald-300 flex items-center gap-1.5">
+              <span>Scenario Analysis:</span>
+            </div>
+            <p id="mortgageNarrativeText" class="text-slate-400 text-[11px]">
+              Loading mortgage scenario comparison...
+            </p>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- ====================================================================
+         TAB 7: ANALYTICS & COMPREHENSIVE YEAR-BY-YEAR LEDGER
+         ==================================================================== -->
+    <section data-tab-panel="analytics" class="tab-panel hidden space-y-6">
+      <!-- Monte Carlo Fan Chart Card -->
+      <div class="glass-panel rounded-xl p-5 border border-slate-800 shadow-xl space-y-4">
+        <div class="flex flex-wrap items-center justify-between gap-4">
+          <div>
+            <h2 class="text-base font-bold text-white">Stochastic Monte Carlo Wealth Dispersion (P10 / P25 / Median / P75 / P90)</h2>
+            <p class="text-xs text-slate-400">Simulates sequence-of-returns risk across randomized market paths with full tax, trust, and RMD rules active</p>
+          </div>
+          <div class="flex items-center gap-3">
+            <label for="selectMcRuns" class="text-xs font-medium text-slate-300">Simulation Runs:</label>
+            <select id="selectMcRuns" data-state-key="monteCarloRuns" class="rounded-lg bg-slate-900 border border-slate-700 px-3 py-1.5 text-xs text-white">
+              <option value="250">250 Runs (Fast)</option>
+              <option value="500">500 Runs (Standard)</option>
+              <option value="1000">1,000 Runs (High Precision)</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+          <div class="p-3.5 rounded-xl bg-slate-900/90 border border-slate-800">
+            <span class="text-xs text-slate-400 block">90th Percentile Terminal Wealth (Upside)</span>
+            <span id="mcP90Terminal" class="text-lg font-bold text-emerald-300 tabular-nums">$0</span>
+          </div>
+          <div class="p-3.5 rounded-xl bg-slate-900/90 border border-emerald-500/30">
+            <span class="text-xs text-slate-400 block">50th Percentile Median Terminal Wealth</span>
+            <span id="mcP50Terminal" class="text-lg font-bold text-emerald-400 tabular-nums">$0</span>
+          </div>
+          <div class="p-3.5 rounded-xl bg-slate-900/90 border border-slate-800">
+            <span class="text-xs text-slate-400 block">10th Percentile Terminal Wealth (Stress Tail)</span>
+            <span id="mcP10Terminal" class="text-lg font-bold text-rose-400 tabular-nums">$0</span>
+          </div>
+        </div>
+
+        <div class="h-[340px] w-full">
+          <canvas id="chartMonteCarloFan" aria-label="Monte Carlo Percentile Fan Chart"></canvas>
+        </div>
+      </div>
+
+      <!-- Full Year-by-Year Audit Ledger -->
+      <div class="glass-panel rounded-xl p-5 border border-slate-800 shadow-xl space-y-4">
+        <div class="flex flex-wrap items-center justify-between gap-3">
+          <div>
+            <h2 class="text-base font-bold text-white">Year-by-Year Multi-Engine Cash Flow, Trust &amp; Tax Audit Ledger</h2>
+            <p class="text-xs text-slate-400">Complete deterministic projection across all accounts, 4-Tier WIFO distributions, indexed WA 7% threshold, and 3.8% NIIT</p>
+          </div>
+          <button id="btnExportLedgerCsv" type="button" class="px-3.5 py-2 text-xs font-semibold rounded-lg bg-emerald-600 hover:bg-emerald-500 text-white transition flex items-center gap-1.5">
+            Export Full Ledger CSV
+          </button>
+        </div>
+
+        <div tabindex="0" role="region" aria-labelledby="ledgerTableCaption" class="table-wrapper stack-on-mobile">
+          <table>
+            <caption id="ledgerTableCaption" class="sr-only">Year-by-Year Financial Projection and Tax Ledger</caption>
+            <thead class="bg-slate-900 text-slate-300 text-[11px] uppercase tracking-wider">
+              <tr>
+                <th class="py-3 px-3 text-left">Year (Age)</th>
+                <th class="py-3 px-3 text-right">Taxable</th>
+                <th class="py-3 px-3 text-right">Pre-Tax</th>
+                <th class="py-3 px-3 text-right">Roth</th>
+                <th class="py-3 px-3 text-right">Def Comp</th>
+                <th class="py-3 px-3 text-right">Trust NAV</th>
+                <th class="py-3 px-3 text-right">Trust Payout</th>
+                <th class="py-3 px-3 text-right">Meltdown / RMD</th>
+                <th class="py-3 px-3 text-right">Fed Ord+LTCG</th>
+                <th class="py-3 px-3 text-right">NIIT (3.8%)</th>
+                <th class="py-3 px-3 text-right">WA Threshold</th>
+                <th class="py-3 px-3 text-right">WA CapGain Tax</th>
+                <th class="py-3 px-3 text-right">Mortgage Pmt</th>
+                <th class="py-3 px-3 text-right">Total Wealth</th>
+              </tr>
+            </thead>
+            <tbody id="ledgerTableBody"></tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+    <!-- ====================================================================
+         TAB 8: GOTTLIEB CRUT SUITABILITY ANALYZER (Klaus Gottlieb 2026 Framework)
+         ==================================================================== -->
+    <section data-tab-panel="gottlieb" class="tab-panel hidden space-y-6">
+      <div class="glass-panel rounded-xl p-5 border border-slate-800 shadow-xl space-y-4">
+        <div class="flex flex-wrap items-center justify-between gap-3 border-b border-slate-800 pb-3">
+          <div>
+            <div class="flex items-center gap-2.5">
+              <h2 class="text-lg font-bold text-white">Gottlieb CRUT Suitability Analyzer</h2>
+              <span class="px-2 py-0.5 text-[11px] font-semibold rounded-full bg-emerald-500/20 text-emerald-300 border border-emerald-500/30">
+                Klaus Gottlieb (2026) Paired-Path Monte Carlo Framework
+              </span>
+            </div>
+            <p class="text-xs text-slate-400 mt-1">
+              Evaluates whether a Charitable Remainder Unitrust (CRUT) outperforms realistic taxable alternatives (<strong class="text-slate-200">Track B: Hold-and-Draw</strong> and <strong class="text-slate-200">Track C: Liquidate &amp; Reinvest</strong>) across 1,000 paired-return trajectories, with upfront IRS § 7520 deduction mechanics and actuarial life expectancy overlays.
+            </p>
+          </div>
+          <div id="gottliebRemainderBadge" class="px-3 py-1 text-xs font-semibold rounded-full border">
+            <!-- Populated dynamically: PASS / FAIL -->
+          </div>
+        </div>
+
+        <!-- 10% Remainder Failure Warning Banner -->
+        <div id="gottliebComplianceAlert" class="hidden p-3.5 rounded-xl bg-rose-500/15 border border-rose-500/40 text-rose-200 flex items-start gap-3">
+          <span class="text-lg">⚠️</span>
+          <div>
+            <span class="font-bold block">FAILED: CRUT fails the IRS 10% remainder rule (IRC § 664(d)(2)(D)).</span>
+            <span class="text-xs text-rose-300/90">The actuarial present value of the charitable remainder is below 10% of the initial asset value. Adjust the payout rate downward or increase settlor age to qualify.</span>
+          </div>
+        </div>
+
+        <!-- 4 Top KPI Callouts -->
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+          <div class="p-3.5 rounded-xl bg-slate-900/90 border border-slate-800">
+            <span class="text-xs text-slate-400 block">Upfront Year 1 Tax Savings</span>
+            <span id="gottliebKpiTaxSavings" class="text-xl font-bold text-emerald-400 tabular-nums mt-0.5 block">$0</span>
+            <span id="gottliebKpiTaxSavingsSub" class="text-[11px] text-slate-400 block mt-0.5">30% AGI deduction allowance</span>
+          </div>
+          <div class="p-3.5 rounded-xl bg-slate-900/90 border border-slate-800">
+            <span class="text-xs text-slate-400 block">Actuarial Life Expectancy Window</span>
+            <span id="gottliebKpiMortality" class="text-xl font-bold text-white tabular-nums mt-0.5 block">Age -- (Yr --)</span>
+            <span id="gottliebKpiMortalitySub" class="text-[11px] text-slate-400 block mt-0.5">Table 2010CM (±5 year band)</span>
+          </div>
+          <div class="p-3.5 rounded-xl bg-slate-900/90 border border-slate-800">
+            <span class="text-xs text-slate-400 block">Lifetime Win Rate vs. Hold-and-Draw (B)</span>
+            <span id="gottliebKpiWinRateHold" class="text-xl font-bold text-amber-400 tabular-nums mt-0.5 block">--%</span>
+            <span class="text-[11px] text-slate-400 block mt-0.5">Deferred liquidation benchmark</span>
+          </div>
+          <div class="p-3.5 rounded-xl bg-slate-900/90 border border-slate-800">
+            <span class="text-xs text-slate-400 block">Lifetime Win Rate vs. Immediate Sale (C)</span>
+            <span id="gottliebKpiWinRateReinvest" class="text-xl font-bold text-emerald-400 tabular-nums mt-0.5 block">--%</span>
+            <span class="text-[11px] text-slate-400 block mt-0.5">Immediate taxable sale benchmark</span>
+          </div>
+        </div>
+
+        <!-- Inputs & Charts Layout -->
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 pt-2">
+
+          <!-- Left 4 Columns: Interactive Inputs -->
+          <div class="lg:col-span-4 space-y-4">
+            <div class="p-4 rounded-xl bg-slate-900/70 border border-slate-800 space-y-3.5">
+              <h3 class="text-xs font-semibold uppercase tracking-wider text-emerald-400 border-b border-slate-800 pb-1.5">
+                1. Asset &amp; Settlor Profile
+              </h3>
+              <div>
+                <label for="inputGottliebAssetValue" class="block text-xs font-medium text-slate-300 mb-1">Initial Asset FMV ($)</label>
+                <input id="inputGottliebAssetValue" type="text" inputmode="decimal" data-currency-input="true" data-state-key="gottliebAssetValue" class="w-full rounded-lg bg-slate-950 border border-slate-700 px-3 py-2 text-sm text-white tabular-nums focus:outline-none focus:border-emerald-500" />
+              </div>
+              <div>
+                <label for="inputGottliebCostBasis" class="block text-xs font-medium text-slate-300 mb-1">Asset Cost Basis ($)</label>
+                <input id="inputGottliebCostBasis" type="text" inputmode="decimal" data-currency-input="true" data-state-key="gottliebCostBasis" class="w-full rounded-lg bg-slate-950 border border-slate-700 px-3 py-2 text-sm text-white tabular-nums focus:outline-none focus:border-emerald-500" />
+              </div>
+              <div class="grid grid-cols-2 gap-3">
+                <div>
+                  <label for="inputGottliebAge" class="block text-xs font-medium text-slate-300 mb-1">Settlor Age</label>
+                  <input id="inputGottliebAge" type="number" min="20" max="95" step="1" data-state-key="gottliebAge" class="w-full rounded-lg bg-slate-950 border border-slate-700 px-3 py-2 text-sm text-white tabular-nums focus:outline-none focus:border-emerald-500" />
+                </div>
+                <div>
+                  <label for="selectGottliebGender" class="block text-xs font-medium text-slate-300 mb-1">Gender</label>
+                  <select id="selectGottliebGender" data-state-key="gottliebGender" class="w-full rounded-lg bg-slate-950 border border-slate-700 px-3 py-2 text-sm text-white focus:outline-none focus:border-emerald-500">
+                    <option value="female">Female</option>
+                    <option value="male">Male</option>
+                  </select>
+                </div>
+              </div>
+            </div>
+
+            <div class="p-4 rounded-xl bg-slate-900/70 border border-slate-800 space-y-3.5">
+              <h3 class="text-xs font-semibold uppercase tracking-wider text-emerald-400 border-b border-slate-800 pb-1.5">
+                2. Trust Terms &amp; IRS Rates
+              </h3>
+              <div class="grid grid-cols-2 gap-3">
+                <div>
+                  <label for="inputGottliebPayoutRate" class="block text-xs font-medium text-slate-300 mb-1">Payout Rate (%)</label>
+                  <input id="inputGottliebPayoutRate" type="number" min="5" max="25" step="0.1" data-state-key="gottliebPayoutRate" class="w-full rounded-lg bg-slate-950 border border-slate-700 px-3 py-2 text-sm text-white tabular-nums focus:outline-none focus:border-emerald-500" />
+                </div>
+                <div>
+                  <label for="inputGottlieb7520Rate" class="block text-xs font-medium text-slate-300 mb-1">§ 7520 Rate (%)</label>
+                  <input id="inputGottlieb7520Rate" type="number" min="0.2" max="15" step="0.2" data-state-key="gottlieb7520Rate" class="w-full rounded-lg bg-slate-950 border border-slate-700 px-3 py-2 text-sm text-white tabular-nums focus:outline-none focus:border-emerald-500" />
+                </div>
+              </div>
+              <div>
+                <label for="inputGottliebOutsideIncome" class="block text-xs font-medium text-slate-300 mb-1">Yr 1 Outside Ordinary Income ($)</label>
+                <input id="inputGottliebOutsideIncome" type="text" inputmode="decimal" data-currency-input="true" data-state-key="gottliebOutsideIncome" class="w-full rounded-lg bg-slate-950 border border-slate-700 px-3 py-2 text-sm text-white tabular-nums focus:outline-none focus:border-emerald-500" />
+                <p class="text-[11px] text-slate-400 mt-1">Dictates Year 1 30% AGI charitable deduction utility</p>
+              </div>
+            </div>
+
+            <div class="p-4 rounded-xl bg-slate-900/70 border border-slate-800 space-y-3.5">
+              <h3 class="text-xs font-semibold uppercase tracking-wider text-emerald-400 border-b border-slate-800 pb-1.5">
+                3. Market &amp; Tax Assumptions
+              </h3>
+              <div class="grid grid-cols-2 gap-3">
+                <div>
+                  <label for="inputGottliebExpectedReturn" class="block text-xs font-medium text-slate-300 mb-1">Expected Return (%)</label>
+                  <input id="inputGottliebExpectedReturn" type="number" min="1" max="20" step="0.1" data-state-key="gottliebExpectedReturn" class="w-full rounded-lg bg-slate-950 border border-slate-700 px-3 py-2 text-sm text-white tabular-nums focus:outline-none focus:border-emerald-500" />
+                </div>
+                <div>
+                  <label for="inputGottliebVolatility" class="block text-xs font-medium text-slate-300 mb-1">Volatility / σ (%)</label>
+                  <input id="inputGottliebVolatility" type="number" min="1" max="35" step="0.5" data-state-key="gottliebVolatility" class="w-full rounded-lg bg-slate-950 border border-slate-700 px-3 py-2 text-sm text-white tabular-nums focus:outline-none focus:border-emerald-500" />
+                </div>
+              </div>
+              <div class="grid grid-cols-2 gap-3">
+                <div>
+                  <label for="inputGottliebCapGainsRate" class="block text-xs font-medium text-slate-300 mb-1">Cap Gains Tax (%)</label>
+                  <input id="inputGottliebCapGainsRate" type="number" min="0" max="45" step="0.1" data-state-key="gottliebCapGainsRate" class="w-full rounded-lg bg-slate-950 border border-slate-700 px-3 py-2 text-sm text-white tabular-nums focus:outline-none focus:border-emerald-500" />
+                </div>
+                <div>
+                  <label for="inputGottliebOrdinaryRate" class="block text-xs font-medium text-slate-300 mb-1">Ordinary Tax (%)</label>
+                  <input id="inputGottliebOrdinaryRate" type="number" min="0" max="60" step="0.1" data-state-key="gottliebOrdinaryRate" class="w-full rounded-lg bg-slate-950 border border-slate-700 px-3 py-2 text-sm text-white tabular-nums focus:outline-none focus:border-emerald-500" />
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Right 8 Columns: Dynamic Charts & Statistical Insights -->
+          <div class="lg:col-span-8 space-y-5">
+            <!-- Chart 1: Outperformance Probability Curve with Shaded Mortality Window -->
+            <div class="glass-panel rounded-xl p-5 border border-slate-800 space-y-3">
+              <div class="flex flex-wrap items-center justify-between gap-2">
+                <div>
+                  <h3 class="text-sm font-bold text-white">Probability of CRUT Outperformance Over Time (40-Year Horizon)</h3>
+                  <p class="text-xs text-slate-400">1,000 paired-path Monte Carlo trajectories comparing Track A against Hold-and-Draw (Track B) and Immediate Sale (Track C)</p>
+                </div>
+                <span class="px-2.5 py-1 text-xs font-semibold rounded-md bg-slate-800 text-slate-300 border border-slate-700">
+                  Vertical Band = Settlor Life Expectancy ± 5 Years
+                </span>
+              </div>
+              <div class="h-[280px] w-full">
+                <canvas id="chartGottliebOutperformance" aria-label="Gottlieb CRUT Outperformance Chart"></canvas>
+              </div>
+            </div>
+
+            <!-- Chart 2: Median Wealth Accumulation Trajectory -->
+            <div class="glass-panel rounded-xl p-5 border border-slate-800 space-y-3">
+              <div class="flex flex-wrap items-center justify-between gap-2">
+                <div>
+                  <h3 class="text-sm font-bold text-white">Median Terminal Wealth Progression (Track A vs. Track B vs. Track C)</h3>
+                  <p class="text-xs text-slate-400">Tracks accumulated settlor after-tax distributions + upfront deduction savings vs. taxable account balances</p>
+                </div>
+              </div>
+              <div class="h-[250px] w-full">
+                <canvas id="chartGottliebTrajectories" aria-label="Gottlieb Wealth Trajectories Chart"></canvas>
+              </div>
+            </div>
+
+            <!-- Published Gottlieb Research Insights -->
+            <div class="p-4 rounded-xl bg-slate-900/90 border border-slate-800 text-xs text-slate-300 space-y-2">
+              <div class="font-bold text-emerald-400 text-sm">Key Insights from Gottlieb (2026) Framework:</div>
+              <ul class="list-disc list-inside text-[11px] text-slate-400 space-y-1.5 leading-relaxed">
+                <li><strong class="text-slate-200">Hold-and-Draw is the Toughest Benchmark:</strong> A CRUT frequently beats an immediate taxable sale (Track C) due to avoiding Day-1 capital gains drag, but beating a buy-and-hold strategy (Track B) depends heavily on asset cost basis, state tax overlays, and living beyond the break-even horizon.</li>
+                <li><strong class="text-slate-200">Payout Rate Optimization:</strong> Defaulting to the statutory minimum 5% payout often <em>reduces</em> CRUT win probability by ~6% compared to higher, statutorily permissible payout rates (e.g. 6%–8%), as higher payouts return cash flow to the client more efficiently.</li>
+                <li><strong class="text-slate-200">The § 7520 Rate Paradox:</strong> While the § 7520 discount rate dictates the upfront charitable deduction value, varying it from 1.2% to 8.2% changes the ongoing win probability by less than 5 percentage points. Ongoing performance is governed primarily by embedded gain, turnover, and longevity.</li>
+              </ul>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- Application Scripts -->
+  <script src="js/state.js"></script>
+  <script src="js/parser.js"></script>
+  <script src="js/engine/tax.js"></script>
+  <script src="js/engine/trust.js"></script>
+  <script src="js/engine/mortgage.js"></script>
+  <script src="js/engine/gottlieb.js"></script>
+  <script src="js/engine/simulator.js"></script>
+  <script src="js/engine/montecarlo.js"></script>
+  <script src="js/charts.js"></script>
+  <script src="js/ui.js"></script>
+</body>
+</html>
